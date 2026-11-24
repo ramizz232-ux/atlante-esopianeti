@@ -1,5 +1,5 @@
 // Offline cache: the whole atlas is stored on the device on first visit.
-const CACHE='atlante-1b9b8385b0';
+const CACHE='atlante-9316ac340e';
 const FILES=['./', 'index.html', 'manifest.webmanifest', 'three.module.min.js', 'data.json', 'stars.json', 'all.json', 'gaia.jpg', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png', 'tex/earth.webp', 'tex/earth_clouds.webp', 'tex/earth_night.webp', 'tex/earth_spec.webp', 'tex/jupiter.webp', 'tex/mars.webp', 'tex/mercury.webp', 'tex/moon.webp', 'tex/neptune.webp', 'tex/saturn.webp', 'tex/saturn_ring.webp', 'tex/sun.webp', 'tex/uranus.webp', 'tex/venus.webp'];
 self.addEventListener('install',e=>{ e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())); });
 self.addEventListener('activate',e=>{ e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(n=>n!==CACHE).map(n=>caches.delete(n)))).then(()=>self.clients.claim())); });
