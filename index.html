@@ -332,6 +332,7 @@ body.sysmode #compass,body.sysmode #coords,body.sysmode .galonly{display:none}
     <li><b>2D / 3D</b>: il pulsante in alto passa alla mappa vista dall'alto (stessi gesti, senza inclinazione) e ritorno.</li><li><b>Sistema solare</b>: tocca il Sole o la prima voce dell'elenco, poi «Vista sistema 3D». Posizioni dei pianeti calcolate per la data mostrata.</li>
     <li><b>Anteprima 3D</b>: nella scheda di pianeti, lune e stelle c'è il corpo in 3D; toccalo per ingrandirlo, trascinalo per girarlo, pizzica per lo zoom. <b>Scheda</b>: trascinala su e giù (tre altezze), giù fino in fondo per chiuderla. Il tasto <b>Indietro</b> del telefono chiude scheda, elenco o sistema.</li>
     <li><b>Sposta</b>: trascina con un dito, come Google Earth (il punto toccato resta sotto il dito; lancia per farlo scorrere). <b>Zoom</b>: pizzica con due dita o doppio tocco. <b>Ruota</b>: gira le due dita. <b>Inclina in 3D</b>: trascina due dita insieme in su o in giù. <b>Bussola</b>: toccala per riportare il nord in alto e la vista dall'alto. Con il mouse: trascina per spostare, tasto destro o Shift per ruotare e inclinare, rotella per lo zoom.</li>
+    <li><b>Segni sulla mappa</b>: <b>cerchio</b> = sistema con pianeti candidati abitabili (verde, blu o viola secondo la classe); <b>rombo</b> = altro sistema del catalogo NASA (si vede con «Tutti i sistemi», colore della stella al centro); <b>punto</b> semplice = stella senza pianeti noti.</li>
     <li><b>Tocca un sistema</b> o una stella per la scheda. <b>Doppio tocco</b> su un punto vuoto: avvicina lì.</li>
     <li><b>Vista sistema 3D</b>: pulsante nella scheda, oppure continua a zoomare dentro un sistema selezionato. Le orbite girano in tempo simulato; zooma indietro o premi «← Galassia» per uscire.</li>
     <li><b>Righello</b> (icona a righello): tocca due oggetti qualsiasi — sistemi, stelle, nubi, il Sole o un punto vuoto del piano — per la distanza in anni luce e parsec, il tempo della luce e quello di una sonda.</li>
@@ -575,9 +576,9 @@ const named=STARS.named.map(s=>{ const i=s.i; return {...s, nm:IT_STAR[s.n]||s.n
 
 // ---------- polar grid
 const gridMat=new THREE.ShaderMaterial({
-  uniforms:{uS0:{value:10},uFr:{value:0},uR:{value:100},uT:{value:new THREE.Vector3()},uOp:{value:1}},
+  uniforms:{uS0:{value:10},uFr:{value:0},uR:{value:100},uT:{value:new THREE.Vector3()},uOp:{value:1},uFill:{value:0},uSpk:{value:1}},
   vertexShader:`varying vec3 vP; void main(){ vec4 w=modelMatrix*vec4(position,1.); vP=w.xyz; gl_Position=projectionMatrix*viewMatrix*w; }`,
-  fragmentShader:`uniform float uS0,uFr,uR,uOp; uniform vec3 uT; varying vec3 vP;
+  fragmentShader:`uniform float uS0,uFr,uR,uOp,uFill,uSpk; uniform vec3 uT; varying vec3 vP;
   float line(float d,float w,float px){ return 1.-smoothstep(w*.5,w*.5+px,d); }
   float ring(float r,float s,float wpx){ float f=r/s; float pw=max(fwidth(f),1e-6); float d=abs(fract(f-.5)-.5)/pw; return 1.-smoothstep(wpx*.5,wpx*.5+1.,d); }
   void main(){
@@ -591,10 +592,11 @@ const gridMat=new THREE.ShaderMaterial({
     float spoke30=(1.-smoothstep(.5,1.5,d30/pw))*smoothstep(uS0*.6,uS0*2.5,r)*.22;
     float s90=radians(90.); float d90=abs(fract(ang/s90+.5)-.5)*s90*r;
     float axis=(1.-smoothstep(.7,1.9,d90/pw))*smoothstep(uS0*.3,uS0,r)*.5;
-    float a=max(max(minor,major),max(max(spoke,spoke30),axis));
+    float a=max(max(minor,major),max(max(spoke,spoke30),axis)*uSpk);
     float fade=1.-smoothstep(uR*1.4,uR*4.2,length(vP.xz-uT.xz));
     vec3 col=mix(vec3(.45,.68,.95),vec3(.72,.88,1.),major);
-    gl_FragColor=vec4(col,a*fade*smoothstep(0.,uS0*.25,r)*uOp);
+    float fill=uFill*fade*(1.-smoothstep(uR*.6,uR*3.,length(vP.xz-uT.xz)));
+    gl_FragColor=vec4(col,max(a*fade*smoothstep(0.,uS0*.25,r),fill)*uOp);
   }`, transparent:true, depthTest:false, depthWrite:false, extensions:{derivatives:true}});
 const grid=new THREE.Mesh(new THREE.PlaneGeometry(1,1,40,40),gridMat); grid.rotation.x=-Math.PI/2; grid.renderOrder=4; grid.frustumCulled=false; scene.add(grid);
 
@@ -1440,7 +1442,35 @@ function buildSystem(st){
   const hzL=mkLabel('zona abitabile','au',new THREE.Vector3((hzI+hzO)/2*Math.cos(2.2),0,-(hzI+hzO)/2*Math.sin(2.2)),14,0,1e9,'sys'); hzL.el.style.color='rgba(150,235,200,.75)';
   const starL=mkLabel(st.solar?'Sole':st.h,'sun',new THREE.Vector3(),90,0,1e9,'sys');
   const P0=st.solar?SOLAR[2]:(list.find(q=>q.cand)||list[0]);
-  return {sys:st,grp,star,bodies,moons,all,bpts,amax,rStar,Ts,L0,host,labels:[...all.map(b=>b.label),auL,hzL,starL].filter(Boolean),t:0,P0};
+  // ---- realistic look: Milky Way on the sky, photographic star glare, depth-shaded orbits, orbital-plane grid
+  // Milky Way band: drawn procedurally (not a photograph), tilted ~30° to the orbital plane
+  const sky=new THREE.Mesh(new THREE.SphereGeometry(4e4,64,32),new THREE.ShaderMaterial({vertexShader:`varying vec3 vD; void main(){ vD=normalize(position); vec4 p=projectionMatrix*modelViewMatrix*vec4(position,1.); gl_Position=p.xyww; }`,
+    fragmentShader:NOISE+`varying vec3 vD; void main(){ vec3 n=normalize(vec3(.25,cos(.5),sin(.5))); vec3 d=normalize(vD); float b=asin(clamp(dot(d,n),-1.,1.));
+      vec3 gc=normalize(cross(n,vec3(1.,0.,0.))); vec3 dp=normalize(d-n*dot(d,n)); float c=dot(dp,gc);
+      float core=pow(max(c,0.),3.)*1.5+.25; float w=.09+.08*pow(max(c,0.),2.);
+      float band=exp(-pow(b/w,2.))*core; float dust=smoothstep(.45,.72,fbm(d*9.))*exp(-pow(b/(w*.35),2.))*.85;
+      float grain=smoothstep(.55,.95,fbm(d*60.)); float clump=.45+.9*fbm(d*22.);
+      vec3 col=mix(vec3(.55,.62,.85),vec3(1.,.86,.66),pow(max(c,0.),2.))*band*clump*(1.-dust)*(.55+.9*grain);
+      gl_FragColor=vec4(col*.42,1.); }`,side:THREE.BackSide,depthWrite:false,depthTest:false}));
+  sky.renderOrder=-3; sky.frustumCulled=false; grp.add(sky);
+  // diffraction spikes + soft glare, in the star's own colour
+  const cv=document.createElement('canvas'); cv.width=cv.height=256; const cx=cv.getContext('2d'); cx.translate(128,128);
+  { const gr=cx.createRadialGradient(0,0,0,0,0,128); gr.addColorStop(0,'rgba(255,255,255,0)'); gr.addColorStop(.1,'rgba(255,255,255,0)'); gr.addColorStop(.16,'rgba(255,255,255,.12)'); gr.addColorStop(.4,'rgba(255,255,255,.03)'); gr.addColorStop(1,'rgba(0,0,0,0)'); cx.fillStyle=gr; cx.fillRect(-128,-128,256,256);
+    for(const a of [0,Math.PI/2,Math.PI/4,-Math.PI/4]){ cx.save(); cx.rotate(a); const diag=Math.abs(a)===Math.PI/4, L=diag?70:124; const lg=cx.createLinearGradient(-L,0,L,0); lg.addColorStop(0,'rgba(255,255,255,0)'); lg.addColorStop(.5,`rgba(255,255,255,${diag?.22:.5})`); lg.addColorStop(1,'rgba(255,255,255,0)'); cx.fillStyle=lg; cx.fillRect(-L,-1.2,2*L,2.4); cx.restore(); } }
+  const spikes=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),color:sc.clone().multiplyScalar(.75),transparent:true,depthTest:false,depthWrite:false,blending:THREE.AdditiveBlending}));
+  spikes.renderOrder=3; grp.add(spikes);
+  // faint polar grid on the orbital plane (rings only)
+  const sgrid=new THREE.Mesh(new THREE.PlaneGeometry(1,1),gridMat.clone()); sgrid.material.uniforms=THREE.UniformsUtils.clone(gridMat.uniforms); sgrid.material.uniforms.uFill.value=.035; sgrid.material.uniforms.uSpk.value=0;
+  sgrid.rotation.x=-Math.PI/2; sgrid.renderOrder=-1; sgrid.frustumCulled=false; grp.add(sgrid);
+  // orbits: near side bright, far side dim
+  for(const b of bodies){ const om=b.line.material; const nm=new THREE.ShaderMaterial({uniforms:{c:{value:om.color.clone()},op:{value:om.opacity},uRef:{value:1}},
+    vertexShader:LOGV+`varying float vK; uniform float uRef; void main(){ vec4 mv=modelViewMatrix*vec4(position,1.); vK=clamp((uRef*1.12+mv.z)/(uRef*.5)+.5,0.,1.); gl_Position=projectionMatrix*mv;
+    #include <logdepthbuf_vertex>
+    }`,fragmentShader:LOGF+`uniform vec3 c; uniform float op; varying float vK; void main(){
+    #include <logdepthbuf_fragment>
+    gl_FragColor=vec4(c,op*mix(.28,1.15,vK)); }`,transparent:true,depthTest:false,depthWrite:false});
+    nm.opacity=om.opacity; b.line.material=nm; om.dispose(); b.line.onBeforeRender=()=>{ nm.uniforms.op.value=nm.opacity; }; }
+  return {sky,spikes,sgrid,sys:st,grp,star,bodies,moons,all,bpts,amax,rStar,Ts,L0,host,labels:[...all.map(b=>b.label),auL,hzL,starL].filter(Boolean),t:0,P0};
 }
 function disposeSystem(){ if(!SYS) return; SYS.grp.traverse(o=>{ if(o.geometry&&o.geometry!==starGeoSys&&o.geometry!==_sphg) o.geometry.dispose(); o.material?.dispose?.(); }); sysScene.remove(SYS.grp); SYS.labels.forEach(rmLabel); SYS=null; }
 let simSpeed=0.1, playing=true; const MOON_SLOW=150, ROT_SLOW=1000;
@@ -1492,8 +1522,12 @@ function updateSystem(dt,now){
   if(!SYS) return; if(playing){ SYS.t+=dt*simSpeed; dirty=true; }
   if(now-lastInteract>5000&&!ctl.fly){ ctl.dth+=dt*0.025; ctl.th+=dt*0.025; dirty=true; }
   SYS.star.material.uniforms.uTime.value=now/1000;
-  const fpx=H()/(2*Math.tan(camera.fov*D2R/2));
-  for(const b of SYS.bodies){ bodyPos(b,SYS.t,b.mesh.position); b.mesh.rotation.y=(b.rot?SYS.t*24/b.rot*2*Math.PI/ROT_SLOW:0)%(2*Math.PI);
+  const fpx=H()/(2*Math.tan(camera.fov*D2R/2)), cs=camera.position.length();
+  SYS.spikes.scale.setScalar(Math.max(SYS.rStar*9,cs*.11));
+  { const r=Math.exp(ctl.lr), e=Math.log10(r*.6), s0=Math.pow(10,Math.floor(e)), u=SYS.sgrid.material.uniforms; u.uS0.value=s0; u.uFr.value=e-Math.floor(e); u.uR.value=SYS.amax*.55; u.uT.value.copy(ctl.t); u.uOp.value=.5; SYS.sgrid.scale.setScalar(Math.max(r*12,SYS.amax*3)); }
+  for(const b of SYS.bodies){ if(b.line.material.uniforms) b.line.material.uniforms.uRef.value=cs; }
+  for(const b of SYS.bodies){ bodyPos(b,SYS.t,b.mesh.position);
+    { const dd=camera.position.distanceTo(b.mesh.position), px=b.rp/Math.max(1e-9,dd)*fpx, minpx=isMobile?6:5; b.mesh.scale.setScalar(px<minpx?b.rp*minpx/px:b.rp); } b.mesh.rotation.y=(b.rot?SYS.t*24/b.rot*2*Math.PI/ROT_SLOW:0)%(2*Math.PI);
     if(b.clouds) b.mesh.material.uniforms.uCl.value=(SYS.t*0.002+now*2e-6)%1;
     if(b.ringMat){ b.ringMat.uniforms.pc.value.copy(b.mesh.position); b.ringMat.uniforms.pr.value=b.rp; }
     const big=b.rp/Math.max(1e-9,camera.position.distanceTo(b.mesh.position))*fpx>38; if(b.label.big!==big){ b.label.big=big; } }
@@ -1581,13 +1615,15 @@ function initGen(j){
     const st={h,d,pos:galToVec(l,b,d),gen:true,fl:flags?flags.split(','):[],pl:[host]}; host.sys=st;
     SYSORB[h]=orb; GEN.push(st); }
   const n=GEN.length, pos=new Float32Array(n*3), col=new Float32Array(n*3), sz=new Float32Array(n);
-  GEN.forEach((st,i)=>{ pos.set([st.pos.x,st.pos.y,st.pos.z],i*3); const c=genCol(st); col.set([c.r,c.g,c.b],i*3); sz[i]=st.fl.some(f=>f==='psr'||f==='wd'||f==='bd')?9:5.5; });
+  GEN.forEach((st,i)=>{ pos.set([st.pos.x,st.pos.y,st.pos.z],i*3); const c=genCol(st); col.set([c.r,c.g,c.b],i*3); sz[i]=st.fl.some(f=>f==='psr'||f==='wd'||f==='bd')?15:12; });
   const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3)); g.setAttribute('color',new THREE.BufferAttribute(col,3)); g.setAttribute('sz',new THREE.BufferAttribute(sz,1));
   genPts=new THREE.Points(g,new THREE.ShaderMaterial({uniforms:{uOp:{value:1}},vertexShader:LOGV+`attribute vec3 color; attribute float sz; varying vec3 vC; void main(){ vC=color; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.); gl_PointSize=sz*uPR;
     #include <logdepthbuf_vertex>
     }`,fragmentShader:LOGF+`uniform float uOp; varying vec3 vC; void main(){ float d=length(gl_PointCoord-.5);
     #include <logdepthbuf_fragment>
-    float a=smoothstep(.5,.28,d); gl_FragColor=vec4(vC,a*.8*uOp); }`,transparent:true,depthTest:false,depthWrite:false}));
+    // NASA planets that are not habitability candidates: dot inside a small diamond (circle = candidate, plain dot = star)
+    float px=1./(13.*uPR); vec2 q=abs(gl_PointCoord-.5); float core=1.-smoothstep(.1,.1+px*1.5,d); float dia=1.-smoothstep(px*.5,px*1.6,abs(q.x+q.y-.4));
+    vec3 c=mix(vec3(.7,.78,.9),vC,.45); gl_FragColor=vec4(mix(c,vC,core),max(core,dia*.8)*uOp); }`,transparent:true,depthTest:false,depthWrite:false}));
   genPts.renderOrder=7; genPts.frustumCulled=false; scene.add(genPts);
   genSelPt=new THREE.Points(onePt(),ringMat('.85,.9,1.',22)); genSelPt.visible=false; genSelPt.renderOrder=12; scene.add(genSelPt);
   for(const st of GEN){ const an=st.fl.some(f=>f==='psr'||f==='wd'); if(st.d<20||an) st.label=mkLabel(st.h,'gen'+(an?' an':''),st.pos,an?24:st.d<10?14:8,an?40:1,an?20000:Math.max(60,st.d*8)); }
@@ -1815,7 +1851,7 @@ document.getElementById('vLoc').onclick=()=>flyTo(new THREE.Vector3(),70,-2.3,1.
 const layEl=document.getElementById('lay'), bLay=document.getElementById('bLay');
 function applyLayers(){ TEX.compose(); CLOUDS.forEach(c=>c.label.hidden=!LAY.clouds); if(genPts){ genPts.visible=LAY.all; GEN.forEach(st=>{ if(st.label) st.label.hidden=!LAY.all; }); if(!LAY.all&&genSelPt) genSelPt.visible=false; } layEl.querySelectorAll('#flt button').forEach(b=>b.classList.toggle('on',(b.dataset.f==='1')===!!LAY.all)); BH.forEach(o=>o.label.hidden=!LAY.bh); waveLabel.hidden=!LAY.wave; layEl.querySelectorAll('[data-l]').forEach(b=>b.classList.toggle('on',!!LAY[b.dataset.l])); try{localStorage.setItem('atl-lay',JSON.stringify(LAY))}catch(e){} touch(); }
 bLay.onclick=e=>{ e.stopPropagation(); layEl.classList.toggle('hide'); bLay.classList.toggle('on',!layEl.classList.contains('hide')); };
-layEl.addEventListener('click',e=>{ const fb=e.target.closest('[data-f]'); if(fb){ LAY.all=fb.dataset.f==='1'; applyLayers(); toast(LAY.all?'Tutti i sistemi del catalogo NASA':'Solo i candidati abitabili'); return; } const b=e.target.closest('[data-l]'); if(b){ LAY[b.dataset.l]=!LAY[b.dataset.l]; applyLayers(); } });
+layEl.addEventListener('click',e=>{ const fb=e.target.closest('[data-f]'); if(fb){ LAY.all=fb.dataset.f==='1'; applyLayers(); toast(LAY.all?'Tutti i sistemi del catalogo NASA · ◇ rombo = altri pianeti, ○ cerchio = candidati abitabili':'Solo i candidati abitabili'); return; } const b=e.target.closest('[data-l]'); if(b){ LAY[b.dataset.l]=!LAY[b.dataset.l]; applyLayers(); } });
 document.getElementById('lHelp').onclick=()=>{ layEl.classList.add('hide'); bLay.classList.remove('on'); helpEl.classList.remove('hide'); };
 canvas.addEventListener('pointerdown',()=>{ if(!layEl.classList.contains('hide')){ layEl.classList.add('hide'); bLay.classList.remove('on'); } });
 window.__onGaia=()=>touch();
