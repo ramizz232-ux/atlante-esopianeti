@@ -219,7 +219,7 @@ body.sysmode #compass,body.sysmode #coords,body.sysmode .galonly{display:none}
 @media (min-width:1000px) and (pointer:fine){ #card,#list,#lay{zoom:1.2} #card,#list{top:57px;bottom:auto;height:calc(100vh / 1.2 - 140px)} #help .panelbox{zoom:1.15} }
 body.holo::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:2;background:repeating-linear-gradient(0deg,rgba(120,220,255,.035) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,20,30,.45) 100%);mix-blend-mode:screen}
 #anc{position:fixed;z-index:6;left:50%;top:calc(62px + var(--safe-t));transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:5px 6px 5px 11px;background:rgba(6,12,22,.82);border:1px solid rgba(143,211,255,.35);border-radius:4px;font:500 11px var(--mono);color:var(--ink);backdrop-filter:blur(6px);white-space:nowrap}
-#anc.hide{display:none} #anc .k{color:#8fd3ff;letter-spacing:.08em;font-size:10px} #anc b{font-weight:600} #anc button{width:26px;height:22px;color:var(--dim);border-left:1px solid var(--line)}
+#anc.hide{display:none} #anc .k{color:#8fd3ff;letter-spacing:.08em;font-size:10px} #anc b{font-weight:600;cursor:pointer;text-decoration:underline dotted rgba(143,211,255,.5);text-underline-offset:3px} #anc button{width:26px;height:22px;color:var(--dim);border-left:1px solid var(--line)}
 #ret{position:fixed;left:0;top:0;z-index:3;pointer-events:none;display:none}
 #ret i{position:absolute;width:9px;height:9px;border:solid rgba(143,211,255,.85)} #ret i:nth-child(1){left:-15px;top:-15px;border-width:1.5px 0 0 1.5px} #ret i:nth-child(2){left:6px;top:-15px;border-width:1.5px 1.5px 0 0} #ret i:nth-child(3){left:-15px;top:6px;border-width:0 0 1.5px 1.5px} #ret i:nth-child(4){left:6px;top:6px;border-width:0 1.5px 1.5px 0}
 #ret span{position:absolute;left:18px;top:8px;white-space:nowrap;font:500 9.5px var(--mono);color:rgba(143,211,255,.8);letter-spacing:.06em}
@@ -360,7 +360,7 @@ body.holo::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:2
   <ul>
     <li><b>2D / 3D</b>: il pulsante in alto passa alla mappa vista dall'alto (stessi gesti, senza inclinazione) e ritorno.</li><li><b>Sistema solare</b>: tocca il Sole o la prima voce dell'elenco, poi «Vista sistema 3D». Posizioni dei pianeti calcolate per la data mostrata.</li>
     <li><b>Anteprima 3D</b>: nella scheda di pianeti, lune e stelle c'è il corpo in 3D; toccalo per ingrandirlo, trascinalo per girarlo, pizzica per lo zoom. <b>Scheda</b>: trascinala su e giù (tre altezze), giù fino in fondo per chiuderla. Il tasto <b>Indietro</b> del telefono chiude scheda, elenco o sistema.</li>
-    <li><b>Visuale ancorata</b>: toccando un sistema, una stella o «Sole» la vista si aggancia all'oggetto senza zoomare (riquadro «⌖ ANCORATO» in alto). Da agganciato un dito ruota attorno all'oggetto e lo zoom avviene su di lui, più lento da vicino; tocca un altro oggetto per passare a quello, oppure la ✕ per sganciarti e tornare libero.</li>
+    <li><b>Visuale ancorata</b>: toccando un sistema, una stella o «Sole» la vista si aggancia all'oggetto senza zoomare (riquadro «⌖ ANCORATO» in alto). Da agganciato un dito ruota attorno all'oggetto e lo zoom avviene su di lui, più lento da vicino. Chiudere la scheda <b>non</b> sgancia: tocca il nome nel riquadro per riaprirla, un altro oggetto per passare a quello, oppure la ✕ del riquadro per sganciarti e tornare libero.</li>
     <li><b>Sposta</b>: trascina con un dito, come Google Earth (il punto toccato resta sotto il dito; lancia per farlo scorrere). <b>Zoom</b>: pizzica con due dita o doppio tocco. <b>Ruota</b>: gira le due dita. <b>Inclina in 3D</b>: trascina due dita insieme in su o in giù. <b>Bussola</b>: toccala per riportare il nord in alto e la vista dall'alto. Con il mouse: trascina per spostare, tasto destro o Shift per ruotare e inclinare, rotella per lo zoom.</li>
     <li><b>Segni sulla mappa</b>: <b>cerchio</b> = sistema con pianeti candidati abitabili (verde, blu o viola secondo la classe); <b>rombo</b> = altro sistema del catalogo NASA (si vede con «Tutti i sistemi», colore della stella al centro); <b>punto</b> semplice = stella senza pianeti noti.</li>
     <li><b>Tocca un sistema</b> o una stella per la scheda. <b>Doppio tocco</b> su un punto vuoto: avvicina lì.</li>
@@ -788,7 +788,7 @@ function grab(x0,y0,x1,y1){ if(SYS&&SYS.follow){ SYS.follow=null; SYS.fprev=null
 let ANC=null; const ancEl=document.createElement('div'); ancEl.id='anc'; ancEl.className='hide'; document.body.appendChild(ancEl);
 const retEl=document.createElement('div'); retEl.id='ret'; retEl.innerHTML='<i></i><i></i><i></i><i></i><span></span>'; document.body.appendChild(retEl);
 function setAnchor(pos,name,move=true){ ANC={pos:pos.clone(),name}; if(move&&MODE==='gal'){ flyTo(pos.clone(),Math.exp(ctl.dlr),ctl.dth,ctl.dph,700); }
-  ancEl.innerHTML=`<span class="k">⌖ ANCORATO</span><b>${name}</b><button aria-label="Sgancia la visuale">✕</button>`; ancEl.classList.remove('hide'); ancEl.querySelector('button').onclick=()=>{ releaseAnchor(); closeCard(); }; touch(); }
+  ancEl.innerHTML=`<span class="k">⌖ ANCORATO</span><b role="button" title="Riapri la scheda">${name}</b><button aria-label="Sgancia la visuale">✕</button>`; ancEl.classList.remove('hide'); ancEl.querySelector('button').onclick=()=>{ releaseAnchor(); closeCard(true); }; ancEl.querySelector('b').onclick=()=>{ if(cardEl.classList.contains('hide')&&cardEl.innerHTML.trim()) openCard(); }; touch(); }
 function releaseAnchor(){ ANC=null; ancEl.classList.add('hide'); retEl.style.display='none'; touch(); }
 function updAnchor(){ if(!ANC||MODE!=='gal'){ retEl.style.display='none'; if(ANC&&MODE!=='gal') ancEl.classList.add('hide'); return; } ancEl.classList.remove('hide'); if(!ctl.fly) ctl.dt.copy(ANC.pos);
   const p=project(ANC.pos); if(p.z>1){ retEl.style.display='none'; return; } retEl.style.display='block'; retEl.style.transform=`translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)`;
@@ -839,7 +839,7 @@ addEventListener('keydown',e=>{ if(e.target.tagName==='INPUT'||e.target.tagName=
   if(k==='w')pan(0,s); else if(k==='s')pan(0,-s); else if(k==='a')pan(s,0); else if(k==='d')pan(-s,0);
   else if(k==='q'){ctl.dth-=0.12;touch();} else if(k==='e'){ctl.dth+=0.12;touch();}
   else if(k==='+'||k==='=')zoomAt(0.7); else if(k==='-'||k==='_')zoomAt(1.4);
-  else if(k==='l')toggleList(); else if(k==='escape'){ if(!helpEl.classList.contains('hide')) helpEl.classList.add('hide'); else if(!cardEl.classList.contains('hide')) closeCard(); else if(MODE==='sys') exitSystem(); } });
+  else if(k==='l')toggleList(); else if(k==='escape'){ if(!helpEl.classList.contains('hide')) helpEl.classList.add('hide'); else if(!cardEl.classList.contains('hide')) closeCard(); else if(MODE==='sys') exitSystem(); else if(ANC){ releaseAnchor(); closeCard(true); } } });
 
 // ---------- picking
 const tv=new THREE.Vector3();
@@ -968,6 +968,7 @@ function applyVisibility(){ systems.forEach((s,i)=>{ const v=s.pl.some(visible);
 function updSheet(){ document.body.classList.toggle('sheet', isMobile&&(!cardEl.classList.contains('hide')||!listEl.classList.contains('hide'))); }
 
 // ---------- selection & cards
+let lastHash='';
 const cardEl=document.getElementById('card'); let selPlanet=null, selSys=null, selLabel=null, selStar=null;
 function setStates(){ systems.forEach((s,i)=>{ ss[i]=s===selSys?2:s===hovered?1:0; const c=new THREE.Color(COL[s.pl.find(visible)?.cls||s.pl[0].cls]); sc.set([c.r,c.g,c.b],i*3); });
   sysGeo.attributes.state.needsUpdate=true; sysGeo.attributes.color.needsUpdate=true; L.forEach(o=>o.el.classList.toggle('sel',o===selLabel)); dirty=true; }
@@ -978,12 +979,13 @@ function selectPlanet(p,fly,inSys){
   selPlanet=p; selSys=p.sys; selStar=null; selSun=false; selLabel=MODE==='sys'?(SYS?.bodies.find(b=>b.n===p.n)?.label||null):p.sys.label; setStates(); renderCard(p); renderRows(); openCard();
   if(fly&&MODE==='gal') setAnchor(p.sys.pos,p.sys.h);
   if(MODE==='sys'&&SYS&&SYS.sys===p.sys) hiliteBody(p.n);
-  try{ history.replaceState(null,'','#'+p.id); }catch(e){}
+  try{ history.replaceState(history.state,'','#'+p.id); lastHash='#'+p.id; }catch(e){}
 }
 let selSun=false;
 function selectSun(fly){ selPlanet=null; selSys=null; selStar=null; selSun=true; selLabel=sunLabel; setStates(); renderSunCard(); renderRows(); openCard(); if(fly&&MODE==='gal') setAnchor(new THREE.Vector3(),'Sole'); }
 function selectStar(s,fly){ selSun=false; selPlanet=null; selSys=null; selStar=s; selLabel=s.label||null; setStates(); renderStarCard(s); renderRows(); openCard(); if(fly&&MODE==='gal') setAnchor(s.pos,s.nm||'Stella'); }
-function closeCard(){ releaseAnchor(); cardEl.classList.add('hide'); selCloud=null; if(MODE==='gal'){ selGen=null; if(genSelPt) genSelPt.visible=false; } selPlanet=null; selStar=null; selSun=false; if(MODE==='sys') hiliteBody('—'); if(MODE==='gal'){ selSys=null; selLabel=null; } setStates(); renderRows(); updSheet(); try{history.replaceState(null,'',location.pathname+location.search)}catch(e){} }
+// closing the card keeps the view anchored: only the ✕ of the anchor badge (or full=true) releases it
+function closeCard(full=false){ if(ANC&&!full&&MODE==='gal'){ cardEl.classList.add('hide'); updSheet(); touch(); return; } cardEl.classList.add('hide'); selCloud=null; if(MODE==='gal'){ selGen=null; if(genSelPt) genSelPt.visible=false; } selPlanet=null; selStar=null; selSun=false; if(MODE==='sys') hiliteBody('—'); if(MODE==='gal'){ selSys=null; selLabel=null; } setStates(); renderRows(); updSheet(); try{history.replaceState(history.state,'',location.pathname+location.search)}catch(e){} }
 
 const kv=rows=>`<dl class="kv">${rows.filter(Boolean).map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
 const tile=(k,v,u,sub)=>`<div class="tile"><span class="tk">${k}</span><b>${v}<small>${u||''}</small></b>${sub?`<span class="ts">${sub}</span>`:''}</div>`;
@@ -1885,10 +1887,10 @@ function frame(now){
 const helpEl=document.getElementById('help');
 // ---------- phone/browser Back button closes the top layer instead of leaving the page
 let histOn=false, ignorePop=false;
-const topLayer=()=>!helpEl.classList.contains('hide')?'help':!layEl.classList.contains('hide')?'lay':!cardEl.classList.contains('hide')?'card':!listEl.classList.contains('hide')?'list':MODE==='sys'?'sys':null;
+const topLayer=()=>!helpEl.classList.contains('hide')?'help':!layEl.classList.contains('hide')?'lay':!cardEl.classList.contains('hide')?'card':!listEl.classList.contains('hide')?'list':MODE==='sys'?'sys':(ANC?'anc':null);
 function syncHist(){ try{ const o=!!topLayer(); if(o&&!histOn){ history.pushState({atl:1},''); histOn=true; } else if(!o&&histOn&&history.state&&history.state.atl){ ignorePop=true; histOn=false; history.back(); } }catch(_){} }
 addEventListener('popstate',()=>{ histOn=false; if(ignorePop){ ignorePop=false; return; } const L=topLayer();
-  if(L==='help') helpEl.classList.add('hide'); else if(L==='lay'){ layEl.classList.add('hide'); bLay.classList.remove('on'); } else if(L==='card') closeCard(); else if(L==='list') toggleList(); else if(L==='sys'&&!BUSY) exitSystem();
+  if(L==='help') helpEl.classList.add('hide'); else if(L==='lay'){ layEl.classList.add('hide'); bLay.classList.remove('on'); } else if(L==='card') closeCard(); else if(L==='list') toggleList(); else if(L==='sys'&&!BUSY) exitSystem(); else if(L==='anc'){ releaseAnchor(); closeCard(true); }
   setTimeout(syncHist,400); });
 setInterval(syncHist,350);
 document.getElementById('bHelp').onclick=()=>helpEl.classList.remove('hide');
@@ -1914,7 +1916,7 @@ setUnit(unit); renderChips(); renderRows(); applyVisibility(); setStates(); appl
 updateControls(0.016);
 const h0=location.hash.slice(1), start=data.find(p=>p.id===h0);
 setTimeout(()=>{ if(start) selectPlanet(start,true); },700);
-addEventListener('hashchange',()=>{ const p=data.find(x=>x.id===location.hash.slice(1)); if(p&&p!==selPlanet){ if(MODE==='sys') exitSystem(true); selectPlanet(p,true); } });
+addEventListener('hashchange',()=>{ if(location.hash===lastHash) return; lastHash=location.hash; const p=data.find(x=>x.id===location.hash.slice(1)); if(p&&p!==selPlanet){ if(MODE==='sys') exitSystem(true); selectPlanet(p,true); } });
 window.__atl={BLOOM,setQ,GEN,selectGen,BH,selectBH,get MODE(){return MODE},get BUSY(){return BUSY},renderMoonCard,renderBodyCard,renderHostCard,renderSunCard,setUnit,toggleList,closeCard,CLOUDS,selectCloud,openCompare,rulerAdd,LAY,applyLayers,SOLAR:SOLAR_SYS,get SYS(){return SYS},followBody,renderSolarCard,openCard,get ctl(){return ctl},flyTo,selectPlanet,data,enterSystem,exitSystem,systems,named,selectStar};
 requestAnimationFrame(loop);
 const ld=document.getElementById('load'); ld.style.opacity=0; setTimeout(()=>ld.remove(),600);
