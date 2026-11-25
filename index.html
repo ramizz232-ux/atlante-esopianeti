@@ -31,8 +31,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:1px solid 
 .lb.sys{padding-left:12px}
 .lb.sys.C{color:#c8ffe7}.lb.sys.O{color:#d5e9ff}.lb.sys.X{color:#cfc6e6}
 .lb.star{font:400 10px/1 var(--sans);color:rgba(255,236,205,.78);padding-left:8px}
-.lb.grid{font:500 9.5px var(--mono);color:rgba(170,212,255,.78);letter-spacing:.04em}
-.lb.deg{font:500 10px var(--mono);color:rgba(185,222,255,.9);letter-spacing:.04em}
+.lb.grid{font:500 9.5px var(--mono);color:rgba(170,212,255,.42);letter-spacing:.04em}
+.lb.deg{font:500 10px var(--mono);color:rgba(185,222,255,.5);letter-spacing:.04em}
 .lb.big{font:600 12px var(--disp);letter-spacing:.08em;color:rgba(230,238,255,.85)}
 .lb.arm{font:500 11px var(--disp);letter-spacing:.14em;color:rgba(195,218,255,.78);text-shadow:0 0 4px #000,0 0 10px #000,0 0 2px #000}
 .lb.sun{font:600 11px var(--disp);color:var(--sun);letter-spacing:.06em;padding-left:12px}
@@ -148,6 +148,24 @@ body.sysmode #compass,body.sysmode #coords,body.sysmode .galonly{display:none}
 .tabs button{flex:none;height:38px;padding:0 10px;font:500 11.5px var(--sans);color:var(--dim);border-bottom:2px solid transparent;letter-spacing:.02em}
 .tabs button.on{color:#fff;border-bottom-color:var(--ice)}
 .cb section{padding-bottom:6px}
+.cb section[hidden]{display:none}
+.tabs{gap:0;padding:0 8px}
+.tabs button{flex:1 0 auto;height:40px;font:600 11px var(--disp);letter-spacing:.12em;text-transform:uppercase}
+.dt{width:100%;border-collapse:collapse}
+.dt th{font:400 12.5px var(--sans);color:var(--dim);text-align:left;padding:7px 8px 7px 0;border-bottom:1px solid rgba(140,190,255,.07);width:46%}
+.dt td{font:500 13.5px var(--mono);color:var(--ink);text-align:right;padding:7px 0;border-bottom:1px solid rgba(140,190,255,.07)}
+.dt td small{font:400 11px var(--mono);color:var(--dim);margin-left:4px}
+.dt.pl th{font:500 10.5px var(--mono);color:var(--faint);text-transform:uppercase;letter-spacing:.06em;text-align:right;width:auto;padding:6px 0 6px 6px}
+.dt.pl th:first-child,.dt.pl td:first-child{text-align:left;padding-left:0}
+.dt.pl td{font-size:12.5px;padding-left:6px}
+.dt.pl tr.hab{cursor:pointer} .dt.pl tr.me td{color:#fff;background:rgba(94,242,176,.07)}
+.dt.pl td i{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;vertical-align:1px} .dt.pl td i.no,.note i.dot.no{background:transparent;border:1px solid var(--dim)}
+.note i.dot{display:inline-block;width:7px;height:7px;border-radius:50%;vertical-align:0}
+.ch .sub2{font:400 12.5px var(--sans);color:var(--dim);margin:2px 0 6px}
+.badge.dim{color:var(--dim)}
+.hzbox{padding:4px 0 2px}
+.cb h3{margin:16px 0 4px}
+
 .cb h4{margin:12px 0 4px;font:600 10.5px var(--sans);color:var(--dim);letter-spacing:.06em;text-transform:uppercase}
 .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:12px}
 .tile{border:1px solid var(--line);border-radius:4px;padding:8px 9px;background:linear-gradient(180deg,rgba(143,211,255,.05),rgba(143,211,255,0));display:flex;flex-direction:column;gap:2px;min-height:68px}
@@ -198,6 +216,14 @@ body.sysmode #compass,body.sysmode #coords,body.sysmode .galonly{display:none}
 }
 /* tablets: roomier card */
 @media (min-width:900px) and (pointer:coarse){ #card{width:420px} .pv{width:104px;height:104px} }
+@media (min-width:1000px) and (pointer:fine){ #card,#list,#lay{zoom:1.2} #card,#list{top:57px;bottom:auto;height:calc(100vh / 1.2 - 140px)} #help .panelbox{zoom:1.15} }
+body.holo::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:2;background:repeating-linear-gradient(0deg,rgba(120,220,255,.035) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,20,30,.45) 100%);mix-blend-mode:screen}
+#anc{position:fixed;z-index:6;left:50%;top:calc(62px + var(--safe-t));transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:5px 6px 5px 11px;background:rgba(6,12,22,.82);border:1px solid rgba(143,211,255,.35);border-radius:4px;font:500 11px var(--mono);color:var(--ink);backdrop-filter:blur(6px);white-space:nowrap}
+#anc.hide{display:none} #anc .k{color:#8fd3ff;letter-spacing:.08em;font-size:10px} #anc b{font-weight:600} #anc button{width:26px;height:22px;color:var(--dim);border-left:1px solid var(--line)}
+#ret{position:fixed;left:0;top:0;z-index:3;pointer-events:none;display:none}
+#ret i{position:absolute;width:9px;height:9px;border:solid rgba(143,211,255,.85)} #ret i:nth-child(1){left:-15px;top:-15px;border-width:1.5px 0 0 1.5px} #ret i:nth-child(2){left:6px;top:-15px;border-width:1.5px 1.5px 0 0} #ret i:nth-child(3){left:-15px;top:6px;border-width:0 0 1.5px 1.5px} #ret i:nth-child(4){left:6px;top:6px;border-width:0 1.5px 1.5px 0}
+#ret span{position:absolute;left:18px;top:8px;white-space:nowrap;font:500 9.5px var(--mono);color:rgba(143,211,255,.8);letter-spacing:.06em}
+@media(max-width:760px){ #anc{top:calc(56px + var(--safe-t))} }
 #help{position:fixed;inset:0;z-index:20;background:rgba(2,4,9,.72);display:grid;place-items:center;padding:16px}
 #help.hide{display:none}
 #help .panelbox{max-width:640px;width:100%;max-height:86vh;overflow:auto;padding:18px 20px}
@@ -304,6 +330,9 @@ body.sysmode #compass,body.sysmode #coords,body.sysmode .galonly{display:none}
 <div id="lay" class="panelbox hide" role="menu" aria-label="Livelli">
   <span class="tk">Sistemi mostrati</span>
   <div class="seg2" id="flt"><button data-f="0">Solo abitabili</button><button data-f="1" id="genN">Tutti i sistemi</button></div>
+  <span class="tk" style="margin-top:8px">Stile</span>
+  <div class="seg2" id="sty"><button data-s="min">Minimale</button><button data-s="holo">Monocromatico</button></div>
+  <button data-l="black"><i></i><span>Solo fondo nero<small>nasconde Via Lattea, gas, polvere e stelle di fondo</small></span></button>
   <span class="tk" style="margin-top:8px">Livelli della mappa</span>
   <button data-l="gaia"><i></i><span>Mappa Gaia (ESA, 2025)<small>immagine di fondo della galassia</small></span></button>
   <button data-l="arms"><i></i><span>Linee dei bracci<small>modello Reid et al. 2019 (maser)</small></span></button>
@@ -331,6 +360,7 @@ body.sysmode #compass,body.sysmode #coords,body.sysmode .galonly{display:none}
   <ul>
     <li><b>2D / 3D</b>: il pulsante in alto passa alla mappa vista dall'alto (stessi gesti, senza inclinazione) e ritorno.</li><li><b>Sistema solare</b>: tocca il Sole o la prima voce dell'elenco, poi «Vista sistema 3D». Posizioni dei pianeti calcolate per la data mostrata.</li>
     <li><b>Anteprima 3D</b>: nella scheda di pianeti, lune e stelle c'è il corpo in 3D; toccalo per ingrandirlo, trascinalo per girarlo, pizzica per lo zoom. <b>Scheda</b>: trascinala su e giù (tre altezze), giù fino in fondo per chiuderla. Il tasto <b>Indietro</b> del telefono chiude scheda, elenco o sistema.</li>
+    <li><b>Visuale ancorata</b>: toccando un sistema, una stella o «Sole» la vista si aggancia all'oggetto senza zoomare (riquadro «⌖ ANCORATO» in alto). Da agganciato un dito ruota attorno all'oggetto e lo zoom avviene su di lui, più lento da vicino; tocca un altro oggetto per passare a quello, oppure la ✕ per sganciarti e tornare libero.</li>
     <li><b>Sposta</b>: trascina con un dito, come Google Earth (il punto toccato resta sotto il dito; lancia per farlo scorrere). <b>Zoom</b>: pizzica con due dita o doppio tocco. <b>Ruota</b>: gira le due dita. <b>Inclina in 3D</b>: trascina due dita insieme in su o in giù. <b>Bussola</b>: toccala per riportare il nord in alto e la vista dall'alto. Con il mouse: trascina per spostare, tasto destro o Shift per ruotare e inclinare, rotella per lo zoom.</li>
     <li><b>Segni sulla mappa</b>: <b>cerchio</b> = sistema con pianeti candidati abitabili (verde, blu o viola secondo la classe); <b>rombo</b> = altro sistema del catalogo NASA (si vede con «Tutti i sistemi», colore della stella al centro); <b>punto</b> semplice = stella senza pianeti noti.</li>
     <li><b>Tocca un sistema</b> o una stella per la scheda. <b>Doppio tocco</b> su un punto vuoto: avvicina lì.</li>
@@ -364,7 +394,11 @@ body.sysmode #compass,body.sysmode #coords,body.sysmode .galonly{display:none}
 import * as THREE from 'three';
 {
 const PC_LY = 3.26156, GC_DIST = 8150, SUN_Z = 20.8, AU_PC = 4.8481368e-6;
-const COL = {C:'#5ef2b0', O:'#6fb8ff', X:'#a493c9'};
+// colour style: 'min' = minimal (default), 'holo' = monochrome holographic table
+const STY=(()=>{ const q=new URLSearchParams(location.search).get('st'); if(q) return q; try{ return localStorage.getItem('atl-sty')||'min'; }catch(_){ return 'min'; } })();
+const HOLO=STY==='holo', MINI=true;
+const COL = HOLO?{C:'#5ef2b0', O:'#3fbf8c', X:'#2f8a6a'}:{C:'#5ef2b0', O:'#6fb8ff', X:'#a493c9'};
+const ICE=HOLO?'#8fe3ff':'#dbe8f5'; if(HOLO) document.body.classList.add('holo');
 const CLS_NAME = {C:'Conservativo', O:'Ottimistico', X:'Fuori dai limiti calcolati'};
 const METH = {rv:'Velocità radiale', tran:'Transito', ttv:'Variazioni dei tempi di transito'};
 const IT_STAR = {Sirius:'Sirio',Arcturus:'Arturo',Canopus:'Canopo',Polaris:'Polare',Regulus:'Regolo',Procyon:'Procione',Pollux:'Polluce',Castor:'Castore','Rigil Kentaurus':'Alfa Centauri A',Toliman:'Alfa Centauri B',"Barnard's Star":'Stella di Barnard',Fomalhaut:'Fomalhaut',Achernar:'Achernar'};
@@ -495,7 +529,7 @@ function paintGalaxy(){
 const discMat=(tex,dust)=>new THREE.ShaderMaterial({uniforms:{map:{value:tex},uOp:{value:1}},
   vertexShader:`varying vec2 vUv; varying vec3 vW; void main(){vUv=uv; vec4 w=modelMatrix*vec4(position,1.); vW=w.xyz; gl_Position=projectionMatrix*viewMatrix*w;}`,
   fragmentShader:`uniform sampler2D map; uniform float uOp; varying vec2 vUv; varying vec3 vW; void main(){
-  vec4 c=texture2D(map,vUv); float f=abs(normalize(cameraPosition-vW).y); float ang=smoothstep(.04,.45,f);
+  vec4 c=texture2D(map,vUv); ${HOLO?'c.rgb=vec3(.45,.85,1.)*pow(dot(c.rgb,vec3(.3,.59,.11)),.9)*1.35;':''} float f=abs(normalize(cameraPosition-vW).y); float ang=smoothstep(.04,.45,f);
   ${dust?'gl_FragColor=vec4(c.rgb,c.a*uOp*ang*.92);':'gl_FragColor=vec4(c.rgb*uOp*ang,1.);'} }`,
   transparent:true, depthTest:false, depthWrite:false, blending:dust?THREE.NormalBlending:THREE.AdditiveBlending, side:THREE.DoubleSide});
 const TEX=paintGalaxy();
@@ -564,7 +598,7 @@ const starMat=new THREE.ShaderMaterial({uniforms:{uLim:{value:6.8},uOp:{value:1}
   vertexShader:LOGV+`attribute vec3 color; attribute float absmag; uniform float uLim,uOp,uKd; varying vec3 vC; varying float vA;
   void main(){ vec4 mv=modelViewMatrix*vec4(position,1.); gl_Position=projectionMatrix*mv; float d=max(length(mv.xyz)/uKd,1e-4);
    float m=absmag+5.*log(d)/log(10.)-5.; float b=clamp((uLim-m)/7.,0.,1.);
-   gl_PointSize=(1.3+7.5*pow(b,1.6))*uPR; vA=clamp((uLim-m)/1.8,0.,1.)*uOp; vC=color;
+   gl_PointSize=(1.3+7.5*pow(b,1.6))*uPR; vA=clamp((uLim-m)/1.8,0.,1.)*uOp; vC=${HOLO?'vec3(.55,.88,1.)*(.75+.25*dot(color,vec3(.33)))':'mix(color,vec3(.86,.92,1.),.85)'};
    #include <logdepthbuf_vertex>
   }`,
   fragmentShader:LOGF+`varying vec3 vC; varying float vA; void main(){ float d=length(gl_PointCoord-.5); float core=smoothstep(.22,.0,d); float halo=smoothstep(.5,.0,d)*.35;
@@ -684,7 +718,7 @@ function buildClouds(){
 const cloudMat=add=>new THREE.ShaderMaterial({uniforms:{uScale:{value:1},uFade:{value:1}},
   vertexShader:LOGV+`attribute float size,alpha; attribute vec3 color; uniform float uScale,uFade; varying vec3 vC; varying float vA;
   void main(){ vec4 mv=modelViewMatrix*vec4(position,1.); gl_Position=projectionMatrix*mv; float z=-mv.z; float s=size*2.*uScale/max(z,1e-3);
-   vA=alpha*uFade*smoothstep(size*.8,size*4.,z)*clamp(s/3.,0.,1.)${add?'*clamp(140./s,.18,1.)':''}; gl_PointSize=clamp(s,1.,700.); vC=color;
+   vA=alpha*uFade*smoothstep(size*.8,size*4.,z)*clamp(s/3.,0.,1.)${add?'*clamp(140./s,.18,1.)':''}; gl_PointSize=clamp(s,1.,700.); vC=${HOLO?'vec3(.4,.8,1.)*dot(color,vec3(.4,.4,.2))':'vec3(.75,.8,.88)*dot(color,vec3(.4,.4,.2))*1.2'};
    #include <logdepthbuf_vertex>
   }`,
   fragmentShader:LOGF+`varying vec3 vC; varying float vA; void main(){ float d=length(gl_PointCoord-.5); float a=smoothstep(.5,.0,d); a*=a;
@@ -750,7 +784,16 @@ function grab(x0,y0,x1,y1){ if(SYS&&SYS.follow){ SYS.follow=null; SYS.fprev=null
   _gv.subVectors(a,b); const L=r*.35; if(_gv.length()>L) _gv.setLength(L);
   ctl.dt.add(_gv); ctl.fly=null; ctl.inert=null;
   const now=performance.now(), dtm=Math.max(8,now-gT); gVel.lerp(_gv.clone().multiplyScalar(1000/dtm),gT&&now-gT<80?.5:1); gT=now; touch(); }
-function zoomAt(f,x,y){ if(BUSY) return;
+// ---------- anchor: the view stays locked on the selected object; drag orbits around it, pinch/wheel zoom on it (gentler when close)
+let ANC=null; const ancEl=document.createElement('div'); ancEl.id='anc'; ancEl.className='hide'; document.body.appendChild(ancEl);
+const retEl=document.createElement('div'); retEl.id='ret'; retEl.innerHTML='<i></i><i></i><i></i><i></i><span></span>'; document.body.appendChild(retEl);
+function setAnchor(pos,name,move=true){ ANC={pos:pos.clone(),name}; if(move&&MODE==='gal'){ flyTo(pos.clone(),Math.exp(ctl.dlr),ctl.dth,ctl.dph,700); }
+  ancEl.innerHTML=`<span class="k">⌖ ANCORATO</span><b>${name}</b><button aria-label="Sgancia la visuale">✕</button>`; ancEl.classList.remove('hide'); ancEl.querySelector('button').onclick=()=>{ releaseAnchor(); closeCard(); }; touch(); }
+function releaseAnchor(){ ANC=null; ancEl.classList.add('hide'); retEl.style.display='none'; touch(); }
+function updAnchor(){ if(!ANC||MODE!=='gal'){ retEl.style.display='none'; if(ANC&&MODE!=='gal') ancEl.classList.add('hide'); return; } ancEl.classList.remove('hide'); if(!ctl.fly) ctl.dt.copy(ANC.pos);
+  const p=project(ANC.pos); if(p.z>1){ retEl.style.display='none'; return; } retEl.style.display='block'; retEl.style.transform=`translate(${p.x.toFixed(1)}px,${p.y.toFixed(1)}px)`;
+  retEl.querySelector('span').textContent=ANC.pos.lengthSq()>1e-8?`${fmtLen(ANC.pos.length())} DA SOL`:'SOL'; }
+function zoomAt(f,x,y){ if(BUSY) return; if(ANC&&MODE==='gal'){ x=null; f=Math.pow(f,ctl.dlr<Math.log(20)?0.55:0.8); }
   const zs=selSys||(selSun?SOLAR_SYS:null); if(MODE==='gal' && f<1 && zs && ctl.dlr<=ctl.rmin+0.02 && ctl.dt.distanceTo(zs.pos)<1.5){ enterSystem(zs); return; }
   if(MODE==='sys' && f>1 && ctl.dlr>=ctl.rmax-0.02){ exitSystem(); return; }
   const old=Math.exp(ctl.dlr); ctl.dlr=Math.min(ctl.rmax,Math.max(ctl.rmin,ctl.dlr+Math.log(f))); const nr=Math.exp(ctl.dlr);
@@ -767,7 +810,7 @@ canvas.addEventListener('pointermove',e=>{
   if(ptrs.size===1){ if(downInfo) downInfo.moved+=Math.abs(dx)+Math.abs(dy);
     const alt=downInfo&&(downInfo.btn===2||downInfo.shift||e.ctrlKey);
     if(alt){ ctl.dth+=dx*0.0055; if(!FLAT) ctl.dph=Math.min(Math.PI*.5-0.02,Math.max(0.0001,ctl.dph-dy*0.0045)); touch(); }
-    else if(downInfo&&downInfo.moved<6) {} else grab(p.x,p.y,e.clientX,e.clientY);
+    else if(downInfo&&downInfo.moved<6) {} else if(ANC&&MODE==='gal'){ const k=ctl.dlr<Math.log(20)?0.0032:0.0045; ctl.dth+=dx*k; if(!FLAT) ctl.dph=Math.min(Math.PI*.5-0.02,Math.max(0.0001,ctl.dph-dy*k*.8)); touch(); } else grab(p.x,p.y,e.clientX,e.clientY);
   } else if(ptrs.size===2){ const [a,b]=[...ptrs.values()]; const mx0=(a.x+b.x)/2,my0=(a.y+b.y)/2,d0=Math.hypot(a.x-b.x,a.y-b.y), a0=Math.atan2(b.y-a.y,b.x-a.x);
     p.x=e.clientX; p.y=e.clientY; const [a2,b2]=[...ptrs.values()]; const mx=(a2.x+b2.x)/2,my=(a2.y+b2.y)/2,d1=Math.hypot(a2.x-b2.x,a2.y-b2.y), a1=Math.atan2(b2.y-a2.y,b2.x-a2.x);
     let da=a1-a0; da=Math.atan2(Math.sin(da),Math.cos(da));
@@ -777,7 +820,7 @@ canvas.addEventListener('pointermove',e=>{
       const same=ya*yb>0&&Math.min(Math.abs(ya),Math.abs(yb))>Math.max(Math.abs(ya),Math.abs(yb))*.4, ty=Math.abs(G2.sy), zx=Math.abs(G2.sd)*d1, rx=Math.abs(G2.sa)*d1*.5;
       if(!same&&Math.max(Math.abs(ya),Math.abs(yb))>10&&Math.min(Math.abs(ya),Math.abs(yb))<3&&!(zx>12||rx>12)){} else if(ty>14&&same&&ty>zx*1.4&&ty>rx*1.4&&ty>Math.abs(G2.sx)*1.2&&!FLAT) G2.mode='tilt'; else if(zx>12||rx>12||Math.hypot(G2.sx,G2.sy)>18) G2.mode='zr'; }
     if(G2.mode==='tilt'){ ctl.dph=Math.min(Math.PI*.5-0.02,Math.max(0.0001,ctl.dph-(my-my0)*0.0038)); ctl.ph=ctl.ph+(ctl.dph-ctl.ph)*.5; touch(); }
-    else if(G2.mode==='zr'){ if(d1>0&&d0>0) zoomAt(d0/d1,mx,my); ctl.dth-=da; ctl.th-=da; grab(mx0,my0,mx,my); gVel.set(0,0,0); }
+    else if(G2.mode==='zr'){ if(d1>0&&d0>0) zoomAt(d0/d1,mx,my); ctl.dth-=da; ctl.th-=da; if(!(ANC&&MODE==='gal')) grab(mx0,my0,mx,my); gVel.set(0,0,0); }
     if(downInfo) downInfo.moved+=99; return; }
   p.x=e.clientX; p.y=e.clientY; });
 const endPtr=e=>{ if(!ptrs.has(e.pointerId)) return; ptrs.delete(e.pointerId); if(ptrs.size<2) G2=null;
@@ -785,6 +828,7 @@ const endPtr=e=>{ if(!ptrs.has(e.pointerId)) return; ptrs.delete(e.pointerId); i
   if(ptrs.size===0&&downInfo&&downInfo.moved<8&&performance.now()-downInfo.t<450){ const now=performance.now(), hit=pick(e.clientX,e.clientY);
     if(RUL.on&&MODE==='gal') rulerTap(hit,e.clientX,e.clientY);
     else if(hit) onPick(hit);
+    else if(now-lastTap<320&&ANC&&MODE==='gal'){ zoomAt(0.5); }
     else if(now-lastTap<320){ const p=MODE==='gal'?worldAt(e.clientX,e.clientY,ctl.dt.y):null; if(p) flyTo(p,Math.exp(ctl.dlr)*0.45); else zoomAt(0.6,e.clientX,e.clientY); }
     lastTap=now; }
   if(ptrs.size===0) downInfo=null; };
@@ -932,14 +976,14 @@ function openCard(){ if(cardEl.classList.contains('hide')) sheetState='half'; ca
 function selectPlanet(p,fly,inSys){
   if(genSelPt&&MODE==='gal'){ genSelPt.visible=false; selGen=null; }
   selPlanet=p; selSys=p.sys; selStar=null; selSun=false; selLabel=MODE==='sys'?(SYS?.bodies.find(b=>b.n===p.n)?.label||null):p.sys.label; setStates(); renderCard(p); renderRows(); openCard();
-  if(fly&&MODE==='gal'){ flyTo(p.sys.pos, Math.max(2.5,Math.min(Math.max(6,p.d*0.3),400))); }
+  if(fly&&MODE==='gal') setAnchor(p.sys.pos,p.sys.h);
   if(MODE==='sys'&&SYS&&SYS.sys===p.sys) hiliteBody(p.n);
   try{ history.replaceState(null,'','#'+p.id); }catch(e){}
 }
 let selSun=false;
-function selectSun(fly){ selPlanet=null; selSys=null; selStar=null; selSun=true; selLabel=sunLabel; setStates(); renderSunCard(); renderRows(); openCard(); if(fly&&MODE==='gal') flyTo(new THREE.Vector3(),Math.min(Math.exp(ctl.dlr),8)); }
-function selectStar(s,fly){ selSun=false; selPlanet=null; selSys=null; selStar=s; selLabel=s.label||null; setStates(); renderStarCard(s); renderRows(); openCard(); if(fly) flyTo(s.pos,Math.max(2,Math.min(s.d*0.3,300))); }
-function closeCard(){ cardEl.classList.add('hide'); selCloud=null; if(MODE==='gal'){ selGen=null; if(genSelPt) genSelPt.visible=false; } selPlanet=null; selStar=null; selSun=false; if(MODE==='sys') hiliteBody('—'); if(MODE==='gal'){ selSys=null; selLabel=null; } setStates(); renderRows(); updSheet(); try{history.replaceState(null,'',location.pathname+location.search)}catch(e){} }
+function selectSun(fly){ selPlanet=null; selSys=null; selStar=null; selSun=true; selLabel=sunLabel; setStates(); renderSunCard(); renderRows(); openCard(); if(fly&&MODE==='gal') setAnchor(new THREE.Vector3(),'Sole'); }
+function selectStar(s,fly){ selSun=false; selPlanet=null; selSys=null; selStar=s; selLabel=s.label||null; setStates(); renderStarCard(s); renderRows(); openCard(); if(fly&&MODE==='gal') setAnchor(s.pos,s.nm||'Stella'); }
+function closeCard(){ releaseAnchor(); cardEl.classList.add('hide'); selCloud=null; if(MODE==='gal'){ selGen=null; if(genSelPt) genSelPt.visible=false; } selPlanet=null; selStar=null; selSun=false; if(MODE==='sys') hiliteBody('—'); if(MODE==='gal'){ selSys=null; selLabel=null; } setStates(); renderRows(); updSheet(); try{history.replaceState(null,'',location.pathname+location.search)}catch(e){} }
 
 const kv=rows=>`<dl class="kv">${rows.filter(Boolean).map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
 const tile=(k,v,u,sub)=>`<div class="tile"><span class="tk">${k}</span><b>${v}<small>${u||''}</small></b>${sub?`<span class="ts">${sub}</span>`:''}</div>`;
@@ -999,15 +1043,16 @@ function pvAttach(){ const d=PV; PV=null; const ch=cardEl.querySelector('.ch'); 
   box.addEventListener('wheel',e=>{ e.preventDefault(); e.stopPropagation(); S.dist=Math.max(1.6,Math.min(14,S.dist*Math.exp(e.deltaY*.0012))); },{passive:false});
   S.last=0; if(!S.raf) S.raf=requestAnimationFrame(pvFrame); }
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&!PVS.raf&&PVS.canvas&&PVS.canvas.isConnected) PVS.raf=requestAnimationFrame(pvFrame); });
-function cardShell(head,tabs,body){
+const CARD_TAB={}; let cardKind='';
+function cardShell(head,tabs,body,kind=''){ cardKind=kind;
   cardEl.innerHTML=`<div class="grab" aria-hidden="true"><i></i></div><div class="ch">${head}<button class="x" aria-label="Chiudi">×</button></div>
    <nav class="tabs">${tabs.map(([id,t],i)=>`<button data-t="${id}" class="${i?'':'on'}">${t}</button>`).join('')}</nav>
    <div class="cb">${body}</div>`; pvAttach();
   cardEl.querySelector('.x').onclick=closeCard;
-  const cb=cardEl.querySelector('.cb'), tb=[...cardEl.querySelectorAll('.tabs button')];
-  const LAND=matchMedia('(orientation:landscape) and (max-height:520px)'); const scr=()=>LAND.matches?cardEl:cb, nav=cardEl.querySelector('.tabs');
-  tb.forEach(b=>b.onclick=()=>{ setSheet('full'); const t=cardEl.querySelector('#s-'+b.dataset.t), S=scr(); if(t) S.scrollTo({top:LAND.matches?t.offsetTop-nav.offsetHeight-4:t.offsetTop-cb.offsetTop-4,behavior:'smooth'}); });
-  const onS=()=>{ let cur=tb[0]; for(const b of tb){ const t=cardEl.querySelector('#s-'+b.dataset.t); if(t&&(LAND.matches?t.offsetTop-nav.offsetHeight-30<=cardEl.scrollTop:t.offsetTop-cb.offsetTop-30<=cb.scrollTop)) cur=b; } tb.forEach(b=>b.classList.toggle('on',b===cur)); cur.scrollIntoView({block:'nearest',inline:'nearest'}); }; cb.onscroll=onS; cardEl.onscroll=onS;
+  const cb=cardEl.querySelector('.cb'), tb=[...cardEl.querySelectorAll('.tabs button')], ids=tabs.map(t=>t[0]);
+  // each tab is its own page: only its section is shown
+  const show=id=>{ tb.forEach(b=>b.classList.toggle('on',b.dataset.t===id)); cb.querySelectorAll(':scope>section').forEach(sec=>{ const k=sec.id.replace('s-',''); sec.hidden=ids.includes(k)&&k!==id; }); cb.scrollTop=0; CARD_TAB[cardKind]=id; const b=tb.find(b=>b.dataset.t===id); b&&b.scrollIntoView({block:'nearest',inline:'nearest'}); };
+  tb.forEach(b=>b.onclick=()=>show(b.dataset.t)); show(ids.includes(CARD_TAB[cardKind])?CARD_TAB[cardKind]:ids[0]);
   bindGrab();
 }
 // Published atmospheric observations (JWST) for candidates in this list
@@ -1033,45 +1078,47 @@ function renderCard(p){
   const lock=(p.Ms<0.65&&p.a<0.3)?'Probabile rotazione sincrona (blocco mareale)':'Non vincolato';
   const yr=Math.round(2026-ly), orb=SYSORB[st.h]||[], nP=orb.length||p.np, col=COL[p.cls];
   const inSys=MODE==='sys'&&SYS&&SYS.sys===st;
-  const badges=[p.hwc?'<span class="badge">HWC</span>':'', p.csi?`<span class="badge">CSI ${p.csi3d?'· anche 3D-HZ':''}</span>`:'', `<span class="badge" style="border-color:${col}88;color:${col}">${CLS_NAME[p.cls]}</span>`, p.controv?'<span class="badge warn">⚠ Controverso (NASA)</span>':'', EXO_ATM[p.n]?'<span class="badge" style="color:#ffe3b0;border-color:#ffd27a88">Atmosfera osservata · JWST</span>':''].join('');
-  const head=`<span class="cls"><i style="background:${col}"></i>${st.h} · ${nP} pianet${nP>1?'i noti':'a noto'} · ${fmtDist(p.d)}</span><h2>${p.n}</h2><div class="badges">${badges}</div>
-    <div class="esirow"><div><b>${nf(p.esi,3)}</b><span>ESI · somiglianza con la Terra</span></div><div class="esibar"><u style="width:${p.esi*100}%;background:${col}"></u></div></div>
+  const badges=[`<span class="badge" style="border-color:${col}88;color:${col}">${CLS_NAME[p.cls]}</span>`, (p.hwc||p.csi)?`<span class="badge dim">${[p.hwc?'HWC':'',p.csi?'CSI':''].filter(Boolean).join(' · ')}</span>`:'', p.controv?'<span class="badge warn">⚠ Controverso (NASA)</span>':'', EXO_ATM[p.n]?'<span class="badge" style="color:#ffe3b0;border-color:#ffd27a88">Atmosfera osservata · JWST</span>':''].join('');
+  const head=`<span class="cls"><i style="background:${col}"></i>${inSys?'PIANETA':'SISTEMA'} · ${inSys?st.h+' · ':''}${fmtDist(p.d)}</span><h2>${inSys?p.n:st.h}</h2>${inSys?'':`<div class="sub2">${nP} pianet${nP>1?'i':'a'} · candidato: <b style="color:${col}">${p.n.replace(st.h,'').trim()||p.n}</b></div>`}<div class="badges">${badges}</div>
+    <div class="esirow"><div><b>${nf(p.esi,2)}</b><span>ESI</span></div><div class="esibar"><u style="width:${p.esi*100}%;background:${col}"></u></div></div>
     <div class="cta">${inSys?'<button class="btn" id="cBack">← Torna alla galassia</button>':'<button class="btn pri" id="cSys">◎ Vista sistema 3D</button>'}</div>`;
-  const tabs=[['ov','Sintesi'],['pl','Pianeta'],['or','Orbita'],['st','Stella'],['sy','Sistema'],['po','Posizione'],['sc','Scoperta']];
+  const nHab=st.pl.length, mass=`${mk==='min'?'≥ ':''}${pm(p.M,p.me)}`;
   const sib=st.pl.length>1?`<div class="sib">${st.pl.map(q=>`<button data-id="${q.id}" class="${q===p?'on':''}" style="color:${COL[q.cls]}">${q.n.replace(st.h,'').trim()||q.n}</button>`).join('')}</div>`:'';
-  const orbList=orb.length?`<dl class="kv plist">${orb.map(q=>`<div><dt${q.n===p.n?' class="me"':''}>${q.n}${q.c?' <i style="background:'+COL[(data.find(x=>x.n===q.n)||{}).cls||'X']+'"></i>':''}</dt><dd>${nf(q.P,q.P<10?2:1)} g · ${q.a?nf(q.a,3)+' UA':'—'}</dd></div>`).join('')}</dl>`:'';
-  const body=`
-   <section id="s-ov">
-    <div class="tiles">
-      ${tile('Raggio',nf(p.R,2),' R'+U('⊕'),tran?xE(p.R):'stimato')}
-      ${tile('Massa',(mk==='min'?'≥':'')+nf(p.M,2),' M'+U('⊕'),mk==='min'?'minima':mk==='est'?'stimata':'misurata')}
-      ${tile('Temperatura',nf(teq-273.15,0),' °C',`${nf(teq,0)} K equilibrio`)}
-      ${tile('Gravità',approx+nf(g,2),' g',xE(g))}
-      ${tile('Anno',p.P<100?nf(p.P,1):nf(p.P,0),' giorni',p.P>365?nf(p.P/365.25,2)+' anni terrestri':'')}
-      ${tile('Luce ricevuta',nf(p.S,2),' S'+U('⊕'),p.S>1?'più della Terra':'meno della Terra')}
-    </div>
-    <div class="duo">${earthSvg(p,col)}<div class="hzmini"><span class="tk">Zona abitabile</span>${hzSvg(p)}</div></div>
-    <p class="note">${p.mp==='Msini'?'Scoperto per velocità radiale: la massa è un valore minimo e il raggio è stimato.':p.mp==='M-R relationship'?'Raggio misurato dal transito; massa stimata con la relazione massa–raggio.':'Raggio e massa misurati.'}${p.M>15&&tran?' La massa indicata è un limite superiore poco vincolato.':''}</p>
-   </section>
-   <section id="s-pl"><h3>PIANETA</h3>${kv([['Raggio',`${pm(p.R,p.re)} R${U('⊕')}`],['Diametro',`${nf(p.R*2*6371,0)} km`],['Massa',`${mk==='min'?'≥ ':''}${pm(p.M,p.me)} M${U('⊕')}`],
-      ['Densità',`${nf(rho,2)} g/cm³`],['Gravità superficiale',`${approx}${nf(g,2)} g`],['Velocità di fuga',`${approx}${nf(ve,1)} km/s`],
-      ['Temperatura di equilibrio',`${nf(teq,0)} K · ${nf(teq-273.15,0)} °C`],['Flusso ricevuto',`${nf(p.S,3)} S${U('⊕')}`],['Rotazione','Non misurata'],['Stato rotazionale',lock]])}
-      <h4>Composizione stimata</h4>${(()=>{ const c=compEst(p,tran,mk); return `<p class="txt"><b>${c[0]}</b><br><span style="color:var(--dim)">${c[1]}</span></p>`; })()}
-      <h4>Atmosfera</h4>${EXO_ATM[p.n]?`<p class="txt"><b>${EXO_ATM[p.n].t}</b><br><span style="color:var(--dim)">${EXO_ATM[p.n].d}</span></p><p class="note">Fonte: ${EXO_ATM[p.n].r}</p>`:`<p class="txt" style="color:var(--dim)">Non ancora osservata.${p.S>0?` Temperatura di equilibrio ${nf(teq,0)} K senza atmosfera: un effetto serra la alzerebbe.`:''}</p>`}
-      <p class="note">Composizione stimata confrontando la densità con quella di un pianeta di composizione terrestre della stessa massa (relazione massa–raggio di Zeng et al. 2016): è un’indicazione, non una misura.</p>
-      ${tran&&(p.tdep!=null||p.tdur!=null)?`<h4>Transito</h4>${kv([p.tdep!=null?['Profondità',`${nf(p.tdep,3)} %`]:null,p.tdur!=null?['Durata',`${nf(p.tdur,2)} ore`]:null,p.imp!=null?['Parametro d’impatto',nf(p.imp,3)]:null])}`:''}</section>
-   <section id="s-or"><h3>ORBITA</h3>${kv([['Periodo',`${nf(p.P,3)} giorni`],['Semiasse maggiore',`${nf(p.a,4)} UA`],['Eccentricità',p.e==null?'—':nf(p.e,3)],p.inc!=null?['Inclinazione',`${nf(p.inc,2)}°`]:null])}
-     <p class="note">Fascia verde: zona abitabile conservativa; azzurra: ottimistica (Kopparapu et al. 2014).</p></section>
-   <section id="s-st"><h3>STELLA · ${st.h.toUpperCase()}</h3>${kv([['Tipo spettrale',p.spt||'—'],['Temperatura',`${nf(p.Ts,0)} K`],['Raggio',p.Rs?`${nf(p.Rs,3)} R☉`:'—'],['Massa',p.Ms?`${nf(p.Ms,3)} M☉`:'—'],
-      ['Luminosità',p.L?`${nf(p.L,p.L<0.01?5:3)} L☉`:'—'],['Età',p.age?`${nf(p.age,1)} mld anni`:'—'],['Metallicità [Fe/H]',p.met!=null?nf(p.met,2)+' dex':'—'],['log g',p.logg!=null?nf(p.logg,2):'—'],
-      ['Magnitudine V',p.V?`${nf(p.V,2)}${p.V<6?' · a occhio nudo':''}`:'—'],['Magnitudine K',p.K?nf(p.K,2):'—'],['Stelle nel sistema',p.ns>1?`${p.ns} (multiplo)`:'1']])}</section>
-   <section id="s-sy"><h3>SISTEMA</h3>${st.pl.length>1?'<span class="tk">Candidati abitabili</span>'+sib:''}${orbList?'<span class="tk" style="margin-top:8px;display:block">Tutti i pianeti noti</span>'+orbList:''}</section>
-   <section id="s-po"><h3>POSIZIONE</h3>${kv([['Ascensione retta',hms(p.ra)],['Declinazione',dms(p.dec)],['Long. galattica l',nf(p.l,4)+'°'],['Lat. galattica b',nf(p.b,4)+'°'],
-      ['Distanza',`${nf(p.d,3)} pc · ${nf(ly,2)} al`],['Luce partita nel',yr>0?`${yr} d.C.`:`${1-yr} a.C.`],['X · Y · Z (pc)',`${nf(st.pos.x,2)} · ${nf(-st.pos.z,2)} · ${nf(st.pos.y,2)}`],['Dal centro galattico',`${nf(gcR,3)} kpc`]])}</section>
-   <section id="s-sc"><h3>SCOPERTA</h3>${kv([['Anno',p.yr],['Metodo',METH[p.meth]],['Struttura',p.fac]])}
-     <a class="lnk" href="https://exoplanetarchive.ipac.caltech.edu/overview/${encodeURIComponent(st.h)}" target="_blank" rel="noopener">Scheda completa su NASA Exoplanet Archive ↗</a></section>`;
-  { const lk=exoLook({R:p.R,M:p.M,S:p.S}); pvDesc({key:'p:'+p.n,name:p.n,c:lk.c,k:lk.t,atm:lk.atm,lock:(p.Ms<0.65&&p.a<0.3&&(lk.t==='rock'||lk.t==='earth')),sc:tcol(p.Ts||5000),seed:(n=>{let h=7;for(const ch of n)h=(h*31+ch.charCodeAt(0))%9973;return h/997;})(p.n)}); }
-  cardShell(head,tabs,body);
+  const plRows=(orb.length?orb:st.pl.map(q=>({n:q.n,P:q.P,a:q.a,R:q.R,M:q.M}))).map(q=>{ const c=data.find(x=>x.n===q.n); const me=q.n===p.n;
+    return `<tr class="${me?'me':''}${c?' hab':''}" ${c?`data-id="${c.id}"`:''}><td>${c?`<i style="background:${COL[c.cls]}"></i>`:'<i class="no"></i>'}${(q.n.replace(st.h,'').trim()||q.n)}</td><td>${q.R?nf(q.R,2):'—'}</td><td>${q.M?nf(q.M,q.M<10?2:0):'—'}</td><td>${q.P?nf(q.P,q.P<10?2:1):'—'}</td><td>${q.a?nf(q.a,3):'—'}</td></tr>`; }).join('');
+  const T=rows=>`<table class="dt"><tbody>${rows.filter(Boolean).map(([k,v,u])=>`<tr><th>${k}</th><td>${v}${u?`<small>${u}</small>`:''}</td></tr>`).join('')}</tbody></table>`;
+  const H=t=>`<h3>${t}</h3>`;
+  let tabs, body;
+  if(!inSys){
+    // galaxy map: the card describes the SYSTEM
+    tabs=[['sy','Sistema'],['pp','Pianeti'],['or','Orbita'],['st','Stella']];
+    body=`
+   <section id="s-sy">${H('Sistema')}${T([['Stella',st.h],['Distanza',nf(ly,ly<100?2:1),' al · '+nf(p.d,p.d<100?2:1)+' pc'],['Pianeti noti',nP],['Candidati abitabili',nHab],['Stelle',p.ns>1?`${p.ns} · multiplo`:'1'],['Luce partita nel',yr>0?`${yr} d.C.`:`${1-yr} a.C.`]])}
+     ${H('Zona abitabile')}<div class="hzbox">${hzSvg(p)}</div>
+     ${H('Posizione')}${T([['Ascensione retta',hms(p.ra)],['Declinazione',dms(p.dec)],['Coord. galattiche',`l ${nf(p.l,2)}° · b ${nf(p.b,2)}°`],['Dal centro galattico',nf(gcR,3),' kpc']])}
+     <a class="lnk" href="https://exoplanetarchive.ipac.caltech.edu/overview/${encodeURIComponent(st.h)}" target="_blank" rel="noopener">NASA Exoplanet Archive ↗</a></section>
+   <section id="s-pp">${H('Pianeti del sistema')}<table class="dt pl"><thead><tr><th>Pianeta</th><th>R⊕</th><th>M⊕</th><th>Anno (g)</th><th>UA</th></tr></thead><tbody>${plRows}</tbody></table>
+     <p class="note"><i class="dot" style="background:${COL.C}"></i> candidato abitabile (tocca per aprirlo) · <i class="dot no"></i> altro pianeta</p>
+     ${H(p.n)}${T([['Raggio',nf(p.R,2),' R⊕'],['Massa',(mk==='min'?'≥ ':'')+nf(p.M,2),' M⊕'],['Temperatura',`${nf(teq-273.15,0)} °C`,` · ${nf(teq,0)} K`],['Gravità',approx+nf(g,2),' g'],['Luce ricevuta',nf(p.S,2),' S⊕'],['Scoperto',`${p.yr} · ${METH[p.meth]}`]])}</section>
+   <section id="s-or">${H('Orbita · '+p.n)}${T([['Periodo',nf(p.P,p.P<10?3:2),' giorni'],p.P>365?['In anni',nf(p.P/365.25,2),' anni']:null,['Semiasse maggiore',nf(p.a,4),' UA'],['Eccentricità',p.e==null?'—':nf(p.e,3)],p.inc!=null?['Inclinazione',nf(p.inc,2),'°']:null,['Rotazione',lock]])}
+     <p class="note">Zona abitabile: verde = conservativa, azzurra = ottimistica (Kopparapu et al. 2014).</p></section>
+   <section id="s-st">${H('Stella · '+st.h)}${T([['Tipo spettrale',p.spt||'—'],['Temperatura',nf(p.Ts,0),' K'],['Raggio',p.Rs?nf(p.Rs,3):'—',p.Rs?' R☉':''],['Massa',p.Ms?nf(p.Ms,3):'—',p.Ms?' M☉':''],
+      ['Luminosità',p.L?nf(p.L,p.L<0.01?5:3):'—',p.L?' L☉':''],['Età',p.age?nf(p.age,1):'—',p.age?' mld anni':''],['Metallicità',p.met!=null?nf(p.met,2):'—',p.met!=null?' dex':''],['Magnitudine V',p.V?nf(p.V,2):'—',p.V&&p.V<6?' · a occhio nudo':'']])}</section>`;
+  } else {
+    // 3D system view: the card describes the PLANET
+    tabs=[['pl','Pianeta'],['or','Orbita'],['co','Composizione'],['sc','Scoperta']];
+    body=`
+   <section id="s-pl"><div class="duo">${earthSvg(p,col)}</div>${H('Fisica')}${T([['Raggio',pm(p.R,p.re),' R⊕'],['Diametro',nf(p.R*2*6371,0),' km'],['Massa',mass,' M⊕'],['Densità',nf(rho,2),' g/cm³'],['Gravità',approx+nf(g,2),' g'],['Velocità di fuga',approx+nf(ve,1),' km/s'],['Temperatura',`${nf(teq-273.15,0)} °C`,` · ${nf(teq,0)} K`],['Luce ricevuta',nf(p.S,3),' S⊕']])}
+     <p class="note">${p.mp==='Msini'?'Scoperto per velocità radiale: la massa è un valore minimo e il raggio è stimato.':p.mp==='M-R relationship'?'Raggio misurato dal transito; massa stimata con la relazione massa–raggio.':'Raggio e massa misurati.'}</p></section>
+   <section id="s-or">${H('Orbita')}${T([['Periodo',nf(p.P,p.P<10?3:2),' giorni'],['Semiasse maggiore',nf(p.a,4),' UA'],['Eccentricità',p.e==null?'—':nf(p.e,3)],p.inc!=null?['Inclinazione',nf(p.inc,2),'°']:null,['Rotazione',lock]])}${H('Zona abitabile')}<div class="hzbox">${hzSvg(p)}</div>${sib?H('Altri candidati')+sib:''}</section>
+   <section id="s-co">${H('Composizione stimata')}${(()=>{ const c=compEst(p,tran,mk); return `<p class="txt"><b>${c[0]}</b><br><span style="color:var(--dim)">${c[1]}</span></p>`; })()}
+     ${H('Atmosfera')}${EXO_ATM[p.n]?`<p class="txt"><b>${EXO_ATM[p.n].t}</b><br><span style="color:var(--dim)">${EXO_ATM[p.n].d}</span></p><p class="note">Fonte: ${EXO_ATM[p.n].r}</p>`:`<p class="txt" style="color:var(--dim)">Non ancora osservata.</p>`}
+     ${tran&&(p.tdep!=null||p.tdur!=null)?H('Transito')+T([p.tdep!=null?['Profondità',nf(p.tdep,3),' %']:null,p.tdur!=null?['Durata',nf(p.tdur,2),' ore']:null]):''}</section>
+   <section id="s-sc">${H('Scoperta')}${T([['Anno',p.yr],['Metodo',METH[p.meth]],['Struttura',p.fac]])}<a class="lnk" href="https://exoplanetarchive.ipac.caltech.edu/overview/${encodeURIComponent(st.h)}" target="_blank" rel="noopener">NASA Exoplanet Archive ↗</a></section>`;
+  }
+  if(!inSys) pvDesc({key:'h:'+st.h,name:st.h,kind:'star',sc:tcol(p.Ts||5000)}); else { const lk=exoLook({R:p.R,M:p.M,S:p.S}); pvDesc({key:'p:'+p.n,name:p.n,c:lk.c,k:lk.t,atm:lk.atm,lock:(p.Ms<0.65&&p.a<0.3&&(lk.t==='rock'||lk.t==='earth')),sc:tcol(p.Ts||5000),seed:(n=>{let h=7;for(const ch of n)h=(h*31+ch.charCodeAt(0))%9973;return h/997;})(p.n)}); }
+  cardShell(head,tabs,body,inSys?'cand3d':'cand');
+  cardEl.querySelectorAll('.dt.pl tr.hab').forEach(r=>r.onclick=()=>{ const q=data.find(x=>x.id===r.dataset.id); if(q&&q!==p) selectPlanet(q,false); });
   cardEl.querySelector('#cSys')?.addEventListener('click',()=>enterSystem(st));
   cardEl.querySelector('#cBack')?.addEventListener('click',()=>exitSystem());
   addCmpBtn('p:'+p.id);
@@ -1084,7 +1131,7 @@ function renderStarCard(s){
   const body=`<section id="s-ov"><div class="tiles">${tile('Tipo spettrale',s.sp||'—','')}${tile('Distanza',nf(s.d*PC_LY,s.d*PC_LY<100?2:0),' al',nf(s.d,2)+' pc')}${tile('Magnitudine',nf(s.m,2),'','apparente V')}${tile('Mag. assoluta',nf(s.M,2),'')}${tile('Luminosità',L0?nf(L0,L0<1?3:0):'—',' L☉','visuale')}${tile('Costellazione',s.con||'—','')}</div></section>
    <section id="s-po"><h3>POSIZIONE</h3>${kv([['Ascensione retta',hms(s.ra)],['Declinazione',dms(s.dec)],['Long. galattica l',nf(g.l,3)+'°'],['Lat. galattica b',nf(g.b,3)+'°']])}
    <p class="note">Dati: catalogo HYG v4.1 (Hipparcos, Gaia, Yale), D. Nash / astronexus, CC BY-SA 4.0.</p></section>`;
-  cardShell(head,[['ov','Sintesi'],['po','Posizione']],body);
+  cardShell(head,[['ov','Stella'],['po','Posizione']],body,'star');
 }
 // bottom-sheet grab (mobile)
 // ---------- draggable bottom sheet with three snap heights (mini · half · full)
@@ -1233,14 +1280,14 @@ const ismMat=new THREE.ShaderMaterial({uniforms:{L:{value:TEX.light},D:{value:TE
   void main(){
    #include <logdepthbuf_fragment>
    vec2 rel=vW.xz-gc; vec2 uv=vec2(rel.x/${(2*HALF).toFixed(1)}+.5,-rel.y/${(2*HALF).toFixed(1)}+.5);
-   vec3 lc=texture2D(L,uv).rgb; float da=texture2D(D,uv).a; float lum=max(lc.r,max(lc.g,lc.b));
+   vec3 lc=texture2D(L,uv).rgb; ${HOLO?'lc=vec3(.45,.85,1.)*dot(lc,vec3(.3,.59,.11))*1.3;':''} float da=texture2D(D,uv).a; float lum=max(lc.r,max(lc.g,lc.b));
    float k=log2(uR*.5), f0=floor(k), w=k-f0; float s0=exp2(f0);
    vec2 q=vW.xz; vec2 wq=q+vec2(soft(vec3(q/(s0*2.),3.)),soft(vec3(q/(s0*2.),7.)))*s0*1.1;
    float r1=rid(vec3(wq/s0,1.)), r2=rid(vec3(wq/(s0*2.),2.));
    float fil=mix(r1,r2,w), cl=mix(soft(vec3(q/s0,4.)),soft(vec3(q/(s0*2.),5.)),w);
    float dust=smoothstep(.32,.62,fil)*(.35+1.4*da)*smoothstep(.25,.6,cl+.15);
    vec3 gas=(lc*1.6/(1.+lum*2.2)+vec3(.075,.06,.085))*(.25+1.6*smoothstep(.35,.85,cl))*(.5+.9*fil);
-   float hii=smoothstep(.62,.8,cl)*smoothstep(.45,.75,fil)*smoothstep(.05,.25,lum); gas+=vec3(1.,.38,.55)*hii*.3; gas=min(gas,vec3(.42));
+   float hii=smoothstep(.62,.8,cl)*smoothstep(.45,.75,fil)*smoothstep(.05,.25,lum); gas+=${HOLO?'vec3(.5,.9,1.)':'vec3(1.,.38,.55)'}*hii*.3; gas=min(gas,vec3(.42));
    float ang=smoothstep(.04,.4,abs(normalize(cameraPosition-vW).y));
    float edge=1.-smoothstep(.55,1.,length(vW.xz-cameraPosition.xz)/(uR*7.));
    float a=clamp(dust*.75,0.,.85)*uOp*ang*edge;
@@ -1552,7 +1599,7 @@ function renderSunCard(){
    <p class="note">Nella vista 3D le posizioni dei pianeti corrispondono alla data indicata in basso (calcolo kepleriano dagli elementi orbitali J2000, precisione di pochi gradi). Distanze delle lune e dimensioni dei corpi non sono in scala.</p></section>
    <section id="s-po"><h3>POSIZIONE NELLA GALASSIA</h3>${kv([['Distanza dal centro galattico','8,18 kpc · 26.700 al'],['Altezza sul piano galattico','≈ 21 pc'],['Braccio','Braccio di Orione (locale)'],['Periodo orbitale galattico','≈ 230 milioni di anni']])}</section>`;
   pvDesc({key:'sun',name:'Sole',kind:'star',sc:tcol(5772),sun:true});
-  cardShell(head,[['ov','Sintesi'],['sy','Sistema'],['po','Posizione']],body); wireCta(SOLAR_SYS);
+  cardShell(head,[['ov','Sole'],['sy','Sistema'],['po','Posizione']],body,'sun'); wireCta(SOLAR_SYS);
 }
 function hostStar(st){ return st.pl[0]; }
 function renderHostCard(st){
@@ -1565,7 +1612,7 @@ function renderHostCard(st){
      ['Zona abitabile conservativa',hzTxt('RG','MG')],['Zona abitabile ottimistica',hzTxt('RV','EM')]])}</section>${plTable}
    <section id="s-po"><h3>POSIZIONE</h3>${kv([['Ascensione retta',hms(p.ra)],['Declinazione',dms(p.dec)],['Distanza',`${nf(p.d,3)} pc · ${nf(p.d*PC_LY,2)} al`]])}</section>`;
   pvDesc({key:'h:'+st.h,name:st.h,kind:'star',sc:tcol(st.pl[0].Ts||5000)});
-  cardShell(head,[['ov','Sintesi'],...(plTable?[['pp','Pianeti']]:[]),['st','Stella'],['po','Posizione']],body); wireCta(st);
+  cardShell(head,[['ov','Sistema'],...(plTable?[['pp','Pianeti']]:[]),['st','Stella'],['po','Posizione']],body,'host'); wireCta(st);
 }
 function renderBodyCard(b,st){
   const S=b.S??(SYS?SYS.L0/(b.a*b.a):null), teq=S?278.6*Math.pow(S,.25):null;
@@ -1574,7 +1621,7 @@ function renderBodyCard(b,st){
    <p class="note">Dati NASA Exoplanet Archive (valori predefiniti). Temperatura stimata con albedo nullo. Aspetto nella vista 3D illustrativo.</p></section>
    <section id="s-or"><h3>ORBITA</h3>${kv([['Periodo',`${nf(b.P,3)} giorni`],['Semiasse maggiore',`${nf(b.a,4)} UA`],['Eccentricità',b.e!=null?nf(b.e,3):'—'],b.eqt?['T equilibrio (NASA)',`${nf(b.eqt,0)} K · ${nf(b.eqt-273.15,0)} °C`]:null,b.mp?['Tipo di massa',b.mp.startsWith('Msin')?'minima (M sin i)':b.mp==='Mass'?'misurata':'stimata']:null])}</section>`;
   { const lk=exoLook(b); pvDesc({key:'b:'+b.n,name:b.n,c:lk.c,k:lk.t,atm:lk.atm,lock:(st.pl&&(st.pl[0].Ms||1)<0.65&&b.a<0.3&&(lk.t==='rock'||lk.t==='earth')),sc:tcol(SYS?SYS.Ts||5000:5000),seed:(n=>{let h=7;for(const ch of n)h=(h*31+ch.charCodeAt(0))%9973;return h/997;})(b.n)}); }
-  cardShell(head,[['ov','Sintesi'],['or','Orbita']],body); wireCta(st);
+  cardShell(head,[['ov','Pianeta'],['or','Orbita']],body,'body'); wireCta(st);
 }
 function renderSolarCard(b){
   const peri=b.a*(1-b.e), afe=b.a*(1+b.e), rotH=b.rot, rotTxt=Math.abs(rotH)>48?`${nf(Math.abs(rotH)/24,2)} giorni`:`${nf(Math.abs(rotH),2)} ore`;
@@ -1586,7 +1633,7 @@ function renderSolarCard(b){
    <section id="s-or"><h3>ORBITA</h3>${kv([['Semiasse maggiore',`${nf(b.a,3)} UA · ${nf(b.a*149.598,1)} mln km`],['Perielio',`${nf(peri,3)} UA`],['Afelio',`${nf(afe,3)} UA`],['Eccentricità',nf(b.e,4)],['Inclinazione sull’eclittica',`${nf(b.i,2)}°`],['Periodo',`${nf(b.P,2)} giorni`]])}
    <p class="note">Fonte: NASA Planetary Fact Sheet; elementi orbitali J2000. Satelliti al 2026 (Minor Planet Center / NASA).</p></section>`;
   pvDesc(TEXN[b.n]?{key:'s:'+b.n,name:b.n,tex:b.n,ring:!!b.ring}:{key:'s:'+b.n,name:b.n,c:b.c,k:b.k,atm:.12,sc:tcol(5772),seed:(n=>{let h=7;for(const ch of n)h=(h*31+ch.charCodeAt(0))%9973;return h/997;})(b.n)});
-  cardShell(head,[['ov','Sintesi'],['pl','Fisica'],...(SOL_ATM[b.n]?[['at','Atmosfera']]:[]),['or','Orbita']],body); wireCta(SOLAR_SYS); if(CMP_SOLAR.includes(b.n)) addCmpBtn('s:'+b.n);
+  cardShell(head,[['ov','Pianeta'],['pl','Fisica'],...(SOL_ATM[b.n]?[['at','Atmosfera']]:[]),['or','Orbita']],body,'solar'); wireCta(SOLAR_SYS); if(CMP_SOLAR.includes(b.n)) addCmpBtn('s:'+b.n);
 }
 function renderMoonCard(m){
   const M=m.GM/398600.4418, g=m.GM/(m.Rkm*m.Rkm)/9.80665e-3, ve=Math.sqrt(2*m.GM/m.Rkm), Mt=M>=0.01?`${nf(M,4)} M${U('⊕')}`:`${nf(M*81.3,M*81.3<0.01?5:3)} masse lunari`;
@@ -1597,7 +1644,7 @@ function renderMoonCard(m){
    <section id="s-or"><h3>ORBITA</h3>${kv([['Semiasse maggiore',`${nf(m.akm,0)} km`],['Periodo',`${nf(Math.abs(m.P),4)} giorni${m.P<0?' (retrogrado)':''}`],['Eccentricità',nf(m.ecc,3)],['Inclinazione',`${nf(m.inc,1)}°`],['Scoperta',m.yr?`${m.yr} · ${m.who}`:'nota fin dall’antichità']])}
    <p class="note">Fonte: JPL Solar System Dynamics (parametri fisici ed elementi orbitali medi). Nella vista 3D la distanza dal pianeta è ingrandita per renderla visibile.</p></section>`;
   pvDesc(m.n==='Luna'?{key:'m:Luna',name:'Luna',tex:'Luna'}:{key:'m:'+m.n,name:m.n,c:m.look.c,k:m.look.k,atm:m.look.atm,sc:tcol(5772),seed:m.look.seed});
-  cardShell(head,[['ov','Sintesi'],['pl','Fisica'],['or','Orbita']],body); wireCta(SOLAR_SYS);
+  cardShell(head,[['ov','Luna'],['pl','Fisica'],['or','Orbita']],body,'moon'); wireCta(SOLAR_SYS);
 }
 
 
@@ -1605,7 +1652,7 @@ function renderMoonCard(m){
 const GEN=[]; let genPts=null, selGen=null, genSelPt=null;
 const METH2={T:'Transito',R:'Velocità radiale',M:'Microlente',I:'Immagine diretta',V:'Variazioni dei transiti',E:'Variazioni delle eclissi',O:'Modulazione di luminosità',A:'Astrometria',P:'Timing di pulsar',Q:'Timing di pulsazioni',D:'Cinematica del disco',X:'altro'};
 const FLAG={psr:['Pulsar','#c49bff'],wd:['Nana bianca','#e8f1ff'],bd:['Nana bruna','#c77a52'],multi:['Più stelle','#9fb4d0'],giant:['Stella gigante','#ffb36b'],ml:['Microlente','#8a93a3']};
-const genCol=st=>{ for(const f of ['psr','wd','bd','giant']) if(st.fl.includes(f)) return new THREE.Color(FLAG[f][1]); const c=tcol(st.pl[0].Ts||5000); return c.multiplyScalar(.8); };
+const genCol=st=>{ if(MINI) return new THREE.Color(ICE); for(const f of ['psr','wd','bd','giant']) if(st.fl.includes(f)) return new THREE.Color(FLAG[f][1]); const c=tcol(st.pl[0].Ts||5000); return c.multiplyScalar(.8); };
 function initGen(j){
   for(const r of j.s){ const [h,l,b,d,Ts,Rs,Ms,spt,ns,met,logg,V,ra,dec,isC,flags,P]=r;
     const orb=P.map(q=>({n:q[0],P:q[1],a:q[2],e:q[3],R:q[4],M:q[5],mp:q[6],eqt:q[7],S:q[8],yr:q[9],meth:q[10],controv:q[11],koi:q[12]}));
@@ -1623,14 +1670,14 @@ function initGen(j){
     #include <logdepthbuf_fragment>
     // NASA planets that are not habitability candidates: dot inside a small diamond (circle = candidate, plain dot = star)
     float px=1./(13.*uPR); vec2 q=abs(gl_PointCoord-.5); float core=1.-smoothstep(.1,.1+px*1.5,d); float dia=1.-smoothstep(px*.5,px*1.6,abs(q.x+q.y-.4));
-    vec3 c=mix(vec3(.7,.78,.9),vC,.45); gl_FragColor=vec4(mix(c,vC,core),max(core,dia*.8)*uOp); }`,transparent:true,depthTest:false,depthWrite:false}));
+    vec3 c=vC; gl_FragColor=vec4(mix(c,vC,core),max(core,dia*.8)*uOp); }`,transparent:true,depthTest:false,depthWrite:false}));
   genPts.renderOrder=7; genPts.frustumCulled=false; scene.add(genPts);
   genSelPt=new THREE.Points(onePt(),ringMat('.85,.9,1.',22)); genSelPt.visible=false; genSelPt.renderOrder=12; scene.add(genSelPt);
   for(const st of GEN){ const an=st.fl.some(f=>f==='psr'||f==='wd'); if(st.d<20||an) st.label=mkLabel(st.h,'gen'+(an?' an':''),st.pos,an?24:st.d<10?14:8,an?40:1,an?20000:Math.max(60,st.d*8)); }
   document.getElementById('genN').textContent=`Tutti (+${nf(GEN.length,0)})`; applyLayers(); renderRows(); touch();
 }
 function selectGen(st,fly){ selPlanet=null; selSys=null; selStar=null; selSun=false; selCloud=null; selGen=st; selLabel=st.label||null; setStates();
-  genSelPt.position.copy(st.pos); genSelPt.visible=true; renderHostCard(st); renderRows(); openCard(); if(fly&&MODE==='gal') flyTo(st.pos,Math.max(2.5,Math.min(Math.max(6,st.d*0.3),400))); }
+  genSelPt.position.copy(st.pos); genSelPt.visible=true; renderHostCard(st); renderRows(); openCard(); if(fly&&MODE==='gal') setAnchor(st.pos,st.h); }
 (window.requestIdleCallback||setTimeout)(()=>fetch('./all.json').then(r=>r.json()).then(initGen).catch(e=>console.warn('all.json',e)),{timeout:1500});
 
 // ---------- local clouds card
@@ -1644,7 +1691,7 @@ function renderCloudCard(c){
    <p class="note">${c.h?'Nube con formazione di stelle massicce: le stelle giovani ionizzano il gas, che brilla di rosa (idrogeno Hα).':'Nube fredda di gas e polvere, opaca alla luce visibile: qui nascono stelle di piccola massa.'} Nella mappa la forma è schematica; posizione e distanza sono misurate.</p></section>
    <section id="s-po"><h3>POSIZIONE</h3>${kv([['Long. galattica l',nf(c.l,1)+'°'],['Lat. galattica b',nf(c.b,1)+'°'],['Distanza',`${nf(c.d,0)} pc · ${nf(c.d*PC_LY,0)} al`],['X · Y · Z (pc)',`${nf(c.pos.x,0)} · ${nf(-c.pos.z,0)} · ${nf(c.pos.y,0)}`]])}
    <p class="note">Distanza da fotometria stellare e parallassi Gaia DR2: ${c.y===19?'Zucker et al. 2019, ApJ 879, 125 (media della nube)':'Zucker et al. 2020, A&A 633, A51 (media delle linee di vista)'}; incertezza sistematica ≈ 5% sotto 1,5 kpc, 10% oltre.${inWave?' Fa parte dell’Onda di Radcliffe, struttura di gas lunga ≈ 2,7 kpc (Alves et al. 2020, Nature 578, 237).':''}</p></section>`;
-  cardShell(head,[['ov','Sintesi'],['po','Posizione']],body);
+  cardShell(head,[['ov','Nube'],['po','Posizione']],body,'cloud');
   const b=document.createElement('div'); b.className='cta'; b.innerHTML='<button class="btn" id="cRul">📏 Misura da qui</button>'; cardEl.querySelector('.ch').appendChild(b);
   b.querySelector('#cRul').onclick=()=>{ rulerReset(); RUL.on=true; document.getElementById('bRul').classList.add('on'); rulerAdd(c.pos.clone(),c.n); closeCard(); };
 }
@@ -1656,7 +1703,7 @@ function renderBHCard(o){
   const body=`<section id="s-ov"><div class="tiles">${tile('Massa',o.m,' M☉')}${tile('Distanza',nf(o.d*PC_LY,0),' al',`${nf(o.d,0)} pc`)}</div><p class="txt">${o.note}.</p></section>
    <section id="s-po"><h3>POSIZIONE</h3>${kv([['Long. galattica l',nf(o.l,2)+'°'],['Lat. galattica b',nf(o.b,2)+'°'],['Distanza',`${nf(o.d,0)} pc · ${nf(o.d*PC_LY,0)} al`]])}
    <p class="note">Fonte: elenco dei buchi neri noti più vicini (Wikipedia), che riporta misure di Gaia DR3 (El-Badry et al. 2023; Gaia Collaboration 2024), binarie X e microlenti. I buchi neri non fanno parte dell’archivio esopianeti NASA.</p></section>`;
-  cardShell(head,[['ov','Sintesi'],['po','Posizione']],body);
+  cardShell(head,[['ov','Buco nero'],['po','Posizione']],body,'bh');
   const b=document.createElement('div'); b.className='cta'; b.innerHTML='<button class="btn" id="cRul">📏 Misura da qui</button>'; cardEl.querySelector('.ch').appendChild(b);
   b.querySelector('#cRul').onclick=()=>{ rulerReset(); RUL.on=true; document.getElementById('bRul').classList.add('on'); rulerAdd(o.pos.clone(),o.n); closeCard(); };
 }
@@ -1761,7 +1808,7 @@ function updateGrid(){
   const r=Math.exp(ctl.lr), k=unit==='ly'?PC_LY:1, lv=Math.log10(r*k*0.22), s0u=Math.pow(10,Math.floor(lv)), fr=lv-Math.floor(lv);
   grid.position.set(ctl.t.x,0,ctl.t.z); grid.scale.set(r*10,r*10,1);
   gridMat.uniforms.uS0.value=s0u/k; gridMat.uniforms.uFr.value=fr; gridMat.uniforms.uR.value=r; gridMat.uniforms.uT.value.copy(ctl.t);
-  gridMat.uniforms.uOp.value=Math.min(1,Math.max(0.25,(Math.log(9000)-ctl.lr)/1.4));
+  gridMat.uniforms.uOp.value=0.45*Math.min(1,Math.max(0.25,(Math.log(9000)-ctl.lr)/1.4));
   const dT=Math.hypot(ctl.t.x,ctl.t.z), Rl=Math.max(r*0.75,dT+r*0.5);
   degL.forEach((o,i)=>{ const a=i*30*D2R; o.pos.set(Rl*Math.cos(a),0,-Rl*Math.sin(a)); o.hidden=r>20000; });
   const ca=Math.atan2(-camera.position.z,camera.position.x), sp=Math.round(ca/(Math.PI/4))*(Math.PI/4)+Math.PI/8, major=s0u*10; let j=0;
@@ -1775,11 +1822,12 @@ function updateFades(){
   const us=H()*curPR/(2*Math.tan(camera.fov*D2R/2)); galMat.uniforms.uScale.value=us; dustMat.uniforms.uScale.value=us;
   { const fi=Math.min(1,Math.max(0,(lr-Math.log(180))/1.1))*(1-Math.min(1,Math.max(0,(lr-Math.log(4500))/1.0)));
     ismMat.uniforms.uOp.value=LAY.gaia||LAY.arms?fi:0; ism.visible=fi>0.01; ismMat.uniforms.uR.value=r; ism.position.set(ctl.t.x,0,ctl.t.z); ism.scale.setScalar(r*16); }
-  const fDisc=Math.min(1,Math.max(0,(lr-Math.log(1800))/1.3)); const gOn=LAY.gaia&&TEX.hasGaia(); discL.material.uniforms.uOp.value=(gOn?1:0.85)*fDisc; discD.material.uniforms.uOp.value=fDisc*(gOn?0.5:1);
+  const BK=!!LAY.black; galaxy.visible=dustPts.visible=starPts.visible=!BK; if(BK) ism.visible=false;
+  const fDisc=BK?0:Math.min(1,Math.max(0,(lr-Math.log(1800))/1.3)); const gOn=LAY.gaia&&TEX.hasGaia(); discL.material.uniforms.uOp.value=(gOn?1:0.85)*fDisc; discD.material.uniforms.uOp.value=fDisc*(gOn?0.5:1);
   armLines.visible=LAY.arms&&fDisc>0.01; armLines.children.forEach(o=>o.material.opacity=o.userData.op*fDisc);
-  const fCl=Math.min(1,Math.max(0,(Math.log(14000)-lr)/1.3)); cloudDark.visible=cloudGlow.visible=LAY.clouds&&fCl>0.01; cloudDark.material.uniforms.uFade.value=cloudGlow.material.uniforms.uFade.value=fCl; cloudDark.material.uniforms.uScale.value=cloudGlow.material.uniforms.uScale.value=H()*curPR/(2*Math.tan(camera.fov*D2R/2));
+  const fCl=Math.min(1,Math.max(0,(Math.log(14000)-lr)/1.3)); cloudDark.visible=cloudGlow.visible=LAY.clouds&&fCl>0.01&&!LAY.black; cloudDark.material.uniforms.uFade.value=cloudGlow.material.uniforms.uFade.value=fCl; cloudDark.material.uniforms.uScale.value=cloudGlow.material.uniforms.uScale.value=H()*curPR/(2*Math.tan(camera.fov*D2R/2));
   bhPts.visible=!!LAY.bh; bhMat.uniforms.uT.value=performance.now()/900; waveLine.visible=LAY.wave&&fCl>0.01; waveLine.material.opacity=0.55*fCl*Math.min(1,Math.max(0,(lr-Math.log(120))/1.2)); discL.visible=discD.visible=fDisc>0.001; bulgeGlow.visible=lr>Math.log(2000);
-  bulgeGlow.material.opacity=(gOn?0.25:0.55)*Math.min(1,Math.max(0,(lr-Math.log(2000))/1.5));
+  bulgeGlow.material.opacity=BK?0:(gOn?0.25:0.55)*Math.min(1,Math.max(0,(lr-Math.log(2000))/1.5));
   starMat.uniforms.uKd.value=KD; starMat.uniforms.uOp.value=Math.min(1,Math.max(0,(Math.log(6000)-lr)/1.2));
   const fD=Math.min(1,Math.max(0,(Math.log(4000)-lr)/1.2)); dropMat.uniforms.uOp.value=0.5*fD; dropMat.uniforms.uT.value.copy(ctl.t); dropMat.uniforms.uR.value=r;
 }
@@ -1821,7 +1869,7 @@ function loop(now){
 }
 function frame(now){
   const dt=Math.min(0.05,(now-tPrev)/1000); tPrev=now;
-  applyOffset(dt); updateControls(dt); updateSystem(dt,now);
+  applyOffset(dt); updAnchor(); updateControls(dt); updateSystem(dt,now);
   const moving=ptrs.size>0||!!ctl.inert||!!ctl.fly;
   if(moving&&qNow===1&&qMove<1) setQ(qMove); else if(!moving&&qNow<1&&now-lastInteract>250) setQ(1);
   if(moving){ frEMA=frEMA*.9+(now-(loop._p||now))*.1; if(frEMA>27&&qNow>.55){ qMove=qNow*.82; setQ(qMove); frEMA=20; } else if(frEMA<14&&qMove<1&&qNow===qMove){ qMove=Math.min(1,qMove*1.1); } }
@@ -1847,11 +1895,11 @@ document.getElementById('bHelp').onclick=()=>helpEl.classList.remove('hide');
 document.getElementById('hClose').onclick=()=>helpEl.classList.add('hide');
 helpEl.addEventListener('click',e=>{ if(e.target===helpEl) helpEl.classList.add('hide'); });
 document.getElementById('vGal').onclick=()=>flyTo(new THREE.Vector3(GC.x*0.62,0,0),33000,-2.45,0.78);
-document.getElementById('vLoc').onclick=()=>flyTo(new THREE.Vector3(),70,-2.3,1.0);
+document.getElementById('vLoc').onclick=()=>{ if(MODE!=='gal') return; const r=Math.min(Math.exp(ctl.dlr),70); flyTo(new THREE.Vector3(),r,ctl.dth,ctl.dph,900); setAnchor(new THREE.Vector3(),'Sole',false); };
 const layEl=document.getElementById('lay'), bLay=document.getElementById('bLay');
-function applyLayers(){ TEX.compose(); CLOUDS.forEach(c=>c.label.hidden=!LAY.clouds); if(genPts){ genPts.visible=LAY.all; GEN.forEach(st=>{ if(st.label) st.label.hidden=!LAY.all; }); if(!LAY.all&&genSelPt) genSelPt.visible=false; } layEl.querySelectorAll('#flt button').forEach(b=>b.classList.toggle('on',(b.dataset.f==='1')===!!LAY.all)); BH.forEach(o=>o.label.hidden=!LAY.bh); waveLabel.hidden=!LAY.wave; layEl.querySelectorAll('[data-l]').forEach(b=>b.classList.toggle('on',!!LAY[b.dataset.l])); try{localStorage.setItem('atl-lay',JSON.stringify(LAY))}catch(e){} touch(); }
+function applyLayers(){ TEX.compose(); CLOUDS.forEach(c=>c.label.hidden=!LAY.clouds); if(genPts){ genPts.visible=LAY.all; GEN.forEach(st=>{ if(st.label) st.label.hidden=!LAY.all; }); if(!LAY.all&&genSelPt) genSelPt.visible=false; } layEl.querySelectorAll('#flt button').forEach(b=>b.classList.toggle('on',(b.dataset.f==='1')===!!LAY.all)); BH.forEach(o=>o.label.hidden=!LAY.bh); waveLabel.hidden=!LAY.wave; layEl.querySelectorAll('[data-l]').forEach(b=>b.classList.toggle('on',!!LAY[b.dataset.l])); layEl.querySelectorAll('#sty button').forEach(b=>b.classList.toggle('on',b.dataset.s===(HOLO?'holo':'min'))); try{localStorage.setItem('atl-lay',JSON.stringify(LAY))}catch(e){} touch(); }
 bLay.onclick=e=>{ e.stopPropagation(); layEl.classList.toggle('hide'); bLay.classList.toggle('on',!layEl.classList.contains('hide')); };
-layEl.addEventListener('click',e=>{ const fb=e.target.closest('[data-f]'); if(fb){ LAY.all=fb.dataset.f==='1'; applyLayers(); toast(LAY.all?'Tutti i sistemi del catalogo NASA · ◇ rombo = altri pianeti, ○ cerchio = candidati abitabili':'Solo i candidati abitabili'); return; } const b=e.target.closest('[data-l]'); if(b){ LAY[b.dataset.l]=!LAY[b.dataset.l]; applyLayers(); } });
+layEl.addEventListener('click',e=>{ const sb=e.target.closest('[data-s]'); if(sb){ try{localStorage.setItem('atl-sty',sb.dataset.s)}catch(_){} if(sb.dataset.s!==(HOLO?'holo':'min')) location.reload(); return; } const fb=e.target.closest('[data-f]'); if(fb){ LAY.all=fb.dataset.f==='1'; applyLayers(); toast(LAY.all?'Tutti i sistemi del catalogo NASA · ◇ rombo = altri pianeti, ○ cerchio = candidati abitabili':'Solo i candidati abitabili'); return; } const b=e.target.closest('[data-l]'); if(b){ LAY[b.dataset.l]=!LAY[b.dataset.l]; applyLayers(); } });
 document.getElementById('lHelp').onclick=()=>{ layEl.classList.add('hide'); bLay.classList.remove('on'); helpEl.classList.remove('hide'); };
 canvas.addEventListener('pointerdown',()=>{ if(!layEl.classList.contains('hide')){ layEl.classList.add('hide'); bLay.classList.remove('on'); } });
 window.__onGaia=()=>touch();
@@ -1862,7 +1910,7 @@ b2D.onclick=()=>{ FLAT=!FLAT; b2D.textContent=FLAT?'3D':'2D'; b2D.title=FLAT?'To
 function setUnit(u){ unit=u; try{localStorage.setItem('atl-unit',u)}catch(e){} document.getElementById('uLy').classList.toggle('on',u==='ly'); document.getElementById('uPc').classList.toggle('on',u==='pc'); renderRows(); if(selPlanet) renderCard(selPlanet); else if(selStar) renderStarCard(selStar); L.forEach(o=>o.w=0); touch(); }
 document.getElementById('uLy').onclick=()=>setUnit('ly'); document.getElementById('uPc').onclick=()=>setUnit('pc');
 setUnit(unit); renderChips(); renderRows(); applyVisibility(); setStates(); applyLayers();
-if(!isMobile){ listEl.classList.remove('hide'); document.getElementById('bList').classList.add('on'); }
+/* clean start: only the galaxy; panels open from the menu */
 updateControls(0.016);
 const h0=location.hash.slice(1), start=data.find(p=>p.id===h0);
 setTimeout(()=>{ if(start) selectPlanet(start,true); },700);
